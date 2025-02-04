@@ -1,8 +1,64 @@
 """REST API for posts."""
 import flask
+from flask import session
 import insta485
+import hashlib
 
+@insta485.app.route('/api/v1/posts/')
+def show_posts():
+  # User authentication
+  if 'username' not in session:
+    username = flask.request.authorization['username']
+    password = flask.request.authorization['password']
 
+    connection = insta485.model.get_db()
+    real_password = connection.execute(
+      "SELECT password FROM users "
+      "WHERE username=? ",
+      (username, )
+    ).fetchone()
+
+    real_password = real_password['password']
+    if not real_password:
+      flask.abort(403)
+
+    salt = real_password.split('$')[1]
+
+    algorithm = 'sha512'
+    hash_obj = hashlib.new(algorithm)
+    password_salted = salt + password
+    hash_obj.update(password_salted.encode('utf-8'))
+    password_hash = hash_obj.hexdigest()
+    password_db_string = "$".join([algorithm, salt, password_hash])
+
+    if password_db_string != real_password:
+      flask.abort(403)
+
+    session['username'] = username
+    
+  
+  username = session['username']
+  posts = connection.execute(
+    "SELECT DISTINCT posts.postid, posts.owner, posts.created, "
+    "users.filename AS owner_file, posts.filename AS post_file "
+    "FROM posts "
+    "INNER JOIN users ON users.username=posts.owner "
+    "LEFT JOIN following ON posts.owner=following.username2 "
+    "AND following.username1 = ? "
+    "WHERE following.username1 = ? OR posts.owner = ? "
+    "ORDER BY posts.postid DESC "
+    "LIMIT 10",
+    (username, username, username, )
+  ).fetchall()
+
+  next = ""
+  results = [{"postid": post["postid"], "url": f"/api/v1/posts/{post['postid']}/"} for post in posts]
+
+  response = {"next": next, "results": results, "url": "/api/v1/posts/"}
+
+  return flask.jsonify(response)
+
+  
 @insta485.app.route('/api/v1/posts/<int:postid_url_slug>/')
 def get_post(postid_url_slug):
     """Return post on postid.

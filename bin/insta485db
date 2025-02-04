@@ -58,7 +58,7 @@ case $1 in
     echo cp sql/uploads/* var/uploads/
     ;;
 
-    "random")
+  "random")
     DB_FILENAME=var/insta485.sqlite3
 
     for i in `seq 1 100`; do
