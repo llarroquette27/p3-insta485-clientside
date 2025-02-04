@@ -1,0 +1,23 @@
+{
+    "__meta__": {
+        "about": "HTTPie session file",
+        "help": "https://httpie.io/docs#sessions",
+        "httpie": "3.2.4"
+    },
+    "auth": {
+        "password": null,
+        "type": null,
+        "username": null
+    },
+    "cookies": [
+        {
+            "domain": "localhost.local",
+            "expires": null,
+            "name": "login",
+            "path": "/",
+            "secure": false,
+            "value": "eyJ1c2VybmFtZSI6ImF3ZGVvcmlvIn0.Z6J0lA.XD2aNL6as6iogVtrSM20zZ7n3t0"
+        }
+    ],
+    "headers": []
+}
