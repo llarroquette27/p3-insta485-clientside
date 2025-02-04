@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>insta485</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div>
+            <a href="/" class="logo-container">
+                <img class="logo" src="/images/logo.png" alt="Logo">
+            </a>
+            <a href="/" class="logo">Insta485</a>
+        </div>
+        <!-- <div>
+            <a href="/explore/">explore |</a>
+        </div> -->
+    </div>
+
+    <a href="/accounts/login/">Log in</a>
+    <form action="/accounts/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required placeholder="file"/>
+        <input type="text" name="fullname" required placeholder="name"/>
+        <input type="text" name="username" required placeholder="username"/>
+        <input type="text" name="email" required placeholder="email"/>
+        <input type="password" name="password" required placeholder="password"/>
+        <input type="submit" name="signup" value="sign up"/>
+        <input type="hidden" name="operation" value="create"/>
+    </form> 
+
+</body>
+</html>

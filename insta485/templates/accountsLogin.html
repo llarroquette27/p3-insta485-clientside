@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>insta485</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <div class="navbar">
+        <div>
+            <a href="/" class="logo-container">
+                <img class="logo" src="/images/logo.png" alt="Logo">
+            </a>
+            <a href="/" class="logo">Insta485</a>
+        </div>
+        <!-- DO WE NEED THIS HERE FOR LOGIN -> SPEC ALL PAGES -->
+        <!-- <div>
+            <a href="/explore/">explore |</a>
+        </div> -->
+    </div>
+
+    <a href="/accounts/create/">/accounts/create/</a>
+    <form action="/accounts/?target=/" method="post" enctype="multipart/form-data">
+        <input type="text" name="username" required/>
+        <input type="password" name="password" required/>
+        <input type="submit" value="login"/>
+        <input type="hidden" name="operation" value="login"/>
+    </form>
+</body>
+</html>

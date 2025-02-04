@@ -1,0 +1,22 @@
+#!/bin/bash
+# insta485test - Run the test suite for insta485
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+
+# Write script that runs the development server
+# This script should be executable and should be named insta485run
+# if var/insta485.sqlite3 does not exist, print an error and exit non-zero
+
+# Run pycodestyle
+pycodestyle insta485
+
+# Run pydocstyle
+pydocstyle insta485
+
+# Run pylint
+pylint insta485
+
+# Run pytest
+pytest -v tests

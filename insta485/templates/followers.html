@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>insta485</title>
+</head>
+<div class="header">
+    <a href="/">Home</a>
+    <div class="nav">
+        <a href="/explore/">explore</a>
+        <a href="/users/{{username}}/">{{ username }}</a>
+    </div>
+</div>
+<h1>Followers</h1>
+{% for follower in followers %}
+<div>
+    <img alt="image" src="/uploads/{{follower.filename}}">
+    <a href="/users/{{follower.username}}/">{{follower.username1}}</a>
+    {% for key in followers_dict %}
+        {% if key == follower.username1 %}
+            {% if followers_dict[key] %}
+            <div>following</div>
+            <form action="/following/?target={{ request.url }}" method="post" enctype="multipart/form-data">
+                <input type="submit" name="unfollow" value="unfollow"/>
+                <input type="hidden" name="username" value="{{ follower.username1 }}"/>
+                <input type="hidden" name="operation" value="unfollow"/>
+            </form>
+            {% else %}
+            <div>not following</div>
+            <form action="/following/?target={{ request.url }}" method="post" enctype="multipart/form-data">
+                <input type="submit" name="follow" value="follow"/>
+                <input type="hidden" name="username" value="{{ follower.username1 }}"/>
+                <input type="hidden" name="operation" value="follow"/>
+            </form>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>
+{% endfor %}
+</html>
