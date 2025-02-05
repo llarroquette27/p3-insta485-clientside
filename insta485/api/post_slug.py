@@ -86,6 +86,8 @@ def get_post(postid_url_slug):
         (postid_url_slug, username, )
     ).fetchone() is not None
 
+    liked_url = None
+
     if liked:
         likeid = connection.execute(
             "SELECT likeid "

@@ -64,4 +64,7 @@ def delete_comment(commentid):
         (commentid, )
     )
 
-    return flask.jsonify({}), 204
+    connection.commit()
+
+    return (request.url + str(commentid) + "/"), 204
+

@@ -43,7 +43,17 @@ def post_api_likes():
 
     username = session['username']
 
+    # Get post data
+    highest_post_id = connection.execute(
+        "SELECT MAX(postid) AS max_postid FROM posts"
+    ).fetchone()
+
+    highest_post_id = highest_post_id['max_postid']
+
     postid = request.args.get('postid')
+
+    if int(postid) > highest_post_id or highest_post_id < 1:
+        flask.abort(404)
 
     cur = connection.execute(
         "SELECT COUNT(*) AS count "
@@ -65,15 +75,15 @@ def post_api_likes():
        likeid = connection.execute(
         "SELECT likeid FROM likes "
         "WHERE owner = ? AND postid = ?",
-        (username, flask.request.form["postid"])
+        (username, postid)
        ).fetchone()['likeid']
-       return flask.jsonify({"likeid": likeid, "url": request.path})
+       return flask.jsonify({"likeid": likeid, "url": request.path + str(likeid) +"/"})
 
     connection.commit()
 
     likeid = connection.execute(
         "SELECT last_insert_rowid() FROM posts"
     ).fetchone()
-    response = {"likeid": likeid, "url": request.path}
+    response = {"likeid": likeid, "url": request.path + str(likeid) +"/"}
 
     return flask.jsonify(response), 201

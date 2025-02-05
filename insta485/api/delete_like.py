@@ -65,4 +65,5 @@ def delete_like(likeid):
 
     connection.commit()
 
-    return request.url, 204
+    return (request.url + str(likeid) + "/"), 204
+    

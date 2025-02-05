@@ -1,4 +1,4 @@
-"""Add one comment to a post."""
+"""Add one comment to a post"""
 import flask
 from flask import session, request
 import insta485
@@ -71,4 +71,4 @@ def post_comments():
         "url": "/api/v1/comments/{comment_id}/"
     }
 
-    return flask.jsonify(context), 201
+    return flask.jsonify(context), 201, 
