@@ -4,9 +4,9 @@ from flask import session, request
 import insta485
 import hashlib
 
-# SHOULD WORK ONCE GET POSTID ROUTE IMPLEMENTED 
-@insta485.app.route('/api/v1/likes/', methods=['POST'])
-def post_api_likes():
+# SHOULD WORK ONCE OTHER ROUTES IMPLEMENTED
+@insta485.app.route('/api/v1/likes/<int:likeid>/', methods=['DELETE'])
+def delete_like(likeid):
     """Sample docstring."""
 
     # User authentication
@@ -42,38 +42,27 @@ def post_api_likes():
         session['username'] = username
 
     username = session['username']
+    # likeid = request.args.get('likeid')
 
-    postid = request.args.get('postid')
+    # Check to make sure like exists
+    like = connection.execute(
+        "SELECT * FROM likes "
+        "WHERE likeid=?",
+        (likeid,)
+    ).fetchone()
+    if not like:
+        flask.abort(404)
+    
+    # Check that user owns like
+    if like['owner'] != username:
+        flask.abort(403)
 
-    cur = connection.execute(
-        "SELECT COUNT(*) AS count "
-        "FROM likes "
-        "WHERE owner = ? AND postid = ?",
-        (username, postid)
+    connection.execute(
+        "DELETE FROM likes "
+        "WHERE likeid=?",
+        (likeid,)
     )
-    count = cur.fetchone()['count']
-
-    if count == 0:
-        # Create a like
-        connection.execute(
-            "INSERT INTO likes (owner, postid) "
-            "VALUES (?, ?)",
-            (username, postid)
-        )
-    else:
-       # Like already exists, return 200 ok
-       likeid = connection.execute(
-        "SELECT likeid FROM likes "
-        "WHERE owner = ? AND postid = ?",
-        (username, flask.request.form["postid"])
-       ).fetchone()['likeid']
-       return flask.jsonify({"likeid": likeid, "url": request.path})
 
     connection.commit()
 
-    likeid = connection.execute(
-        "SELECT last_insert_rowid() FROM posts"
-    ).fetchone()
-    response = {"likeid": likeid, "url": request.path}
-
-    return flask.jsonify(response), 201
+    return request.url, 204

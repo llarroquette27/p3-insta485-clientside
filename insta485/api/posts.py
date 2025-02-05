@@ -5,7 +5,7 @@ import insta485
 import hashlib
 
 @insta485.app.route('/api/v1/posts/')
-def show_posts():
+def get_posts():
   connection = insta485.model.get_db()
 
   # User authentication
@@ -40,18 +40,8 @@ def show_posts():
     session['username'] = username
 
   username = session['username']
-    
-  # Get query strings
-  limit = request.args.get('size', 10, type=int) # Default is limit of 10
-  postid = request.args.get('postid_lte', session.get('postid', None), type=int)
-  page = request.args.get('page', 1, type=int) 
-
-  # Add error checking 
-  if limit < 0 or page < 0:
-    flask.abort(400)
   
-  
-  # Update query to include query strings
+  # Query gets all possible posts, later we will filter
   posts = connection.execute(
     "SELECT DISTINCT posts.postid, posts.owner, posts.created, "
     "users.filename AS owner_file, posts.filename AS post_file "
@@ -60,58 +50,72 @@ def show_posts():
     "LEFT JOIN following ON posts.owner=following.username2 "
     "AND following.username1 = ? "
     "WHERE following.username1 = ? OR posts.owner = ? "
-    "ORDER BY posts.postid DESC " 
-    "LIMIT ? ",
-    (username, username, username, limit,)
+    "ORDER BY posts.postid DESC ",
+    (username, username, username,)
   ).fetchall()
-  print(posts)
 
-  # Store most recent post id in session - loop through posts, find highest id
-  most_recent = 0
+  # Get query strings used to filter
+  limit = request.args.get('size', 10, type=int) # Default is limit of 10
+  postid = request.args.get('postid_lte', session.get('postid', None), type=int)
+  page = request.args.get('page', 1, type=int) 
+
+  # Error check the query strings
+  if limit < 0 or page < 0:
+    flask.abort(400)
+
+  # Filter by postid_lte and by last session
+  # Filers by postid_lte if it exists
+  filtered_posts = []
+  if postid:
+    for post in posts:
+      if post['postid'] <= postid:
+        filtered_posts.append(post)
+    posts = filtered_posts
+  
+  # Filters by oldest post from last request from session
+  filtered_posts = []
+  if 'last_post' in session:
+    for post in posts:
+      if post['postid'] < session['last_post']:
+        filtered_posts.append(post)
+    posts = filtered_posts
+
+  # Filters limit (or 10) most recent posts
+  filtered_posts = sorted(posts, key=lambda x: x['postid'], reverse=True)[:limit]
+  posts = filtered_posts
+
+  # TO-DO: PAGES?
+  # NOT SURE WHAT PAGES ARE FOR
+
+  # Gets oldest post to save for next query for filtering
+  oldest_post = float('inf')
   for post in posts:
-    if post['postid'] > most_recent:
-      most_recent = max(post['postid'], most_recent)
-  session['postid'] = most_recent
-  final_postid = most_recent
+    oldest_post = min(post['postid'], oldest_post)
+  
+  session['last_post'] = oldest_post # Remembers last post for next query
 
-  # Computer next string
+  # If not postid_lte, get current newest post -> this is for the next request
+  newest_post = 0
+  if postid is None:
+    for post in posts:
+      newest_post = max(newest_post, post['postid'])
+    postid = newest_post
+
+  # Compute next string
   if len(posts) < limit:
     next = ""
   else:
-    next = f"/api/v1/posts/?size={limit}&page={page}&postid_lte={final_postid}"
+    next = f"/api/v1/posts/?size={limit}&page={page}&postid_lte={postid}"
 
   results = [{"postid": post["postid"], "url": f"/api/v1/posts/{post['postid']}/"} for post in posts]
 
-  response = {"next": next, "results": results, "url": "/api/v1/posts/"}
-  print(response)
+  path = request.path
+  query_string = request.query_string.decode('utf-8')
+
+  if query_string:
+    response = {"next": next, "results": results, "url": f"{path}?{query_string}"}
+  else:
+    response = {"next": next, "results": results, "url": f"{path}"}
+  print(request)
 
   return flask.jsonify(response)
-
-  
-@insta485.app.route('/api/v1/posts/<int:postid_url_slug>/')
-def get_post(postid_url_slug):
-  """Return post on postid.
-
-  Example:
-  {
-    "created": "2017-09-28 04:33:28",
-    "imgUrl": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
-    "owner": "awdeorio",
-    "ownerImgUrl": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-    "ownerShowUrl": "/users/awdeorio/",
-    "postShowUrl": "/posts/1/",
-    "postid": 1,
-    "url": "/api/v1/posts/1/"
-  }
-  """
-  context = {
-      "created": "2017-09-28 04:33:28",
-      "imgUrl": "/uploads/122a7d27ca1d7420a1072f695d9290fad4501a41.jpg",
-      "owner": "awdeorio",
-      "ownerImgUrl": "/uploads/e1a7c5c32973862ee15173b0259e3efdb6a391af.jpg",
-      "ownerShowUrl": "/users/awdeorio/",
-      "postShowUrl": f"/posts/{postid_url_slug}/",
-      "postid": postid_url_slug,
-      "url": flask.request.path,
-  }
-  return flask.jsonify(**context)
