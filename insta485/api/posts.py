@@ -40,6 +40,22 @@ def get_posts():
     session['username'] = username
 
   username = session['username']
+
+  # Get query strings used to filter
+  limit = request.args.get('size', 10, type=int) # Default is limit of 10
+  postid_lte = request.args.get('postid_lte', session.get('postid', None), type=int)
+  page = request.args.get('page', 0, type=int) 
+
+  if postid_lte is None:
+    # Get the comment id
+    post_id = connection.execute(
+        "SELECT MAX(postid) FROM posts"
+    ).fetchone()['MAX(postid)']
+    postid_lte = post_id
+
+  # Error check the query strings
+  if limit < 0 or page < 0:
+    flask.abort(400)
   
   # Query gets all possible posts, later we will filter
   posts = connection.execute(
@@ -49,63 +65,26 @@ def get_posts():
     "INNER JOIN users ON users.username=posts.owner "
     "LEFT JOIN following ON posts.owner=following.username2 "
     "AND following.username1 = ? "
-    "WHERE following.username1 = ? OR posts.owner = ? "
-    "ORDER BY posts.postid DESC ",
-    (username, username, username,)
+    "WHERE following.username1 = ? OR posts.owner = ? AND posts.postid <= ? "
+    "ORDER BY posts.postid DESC "
+    "LIMIT ? OFFSET ?",
+    (username, username, username, postid_lte, limit, (limit * page))
   ).fetchall()
-
-  # Get query strings used to filter
-  limit = request.args.get('size', 10, type=int) # Default is limit of 10
-  postid = request.args.get('postid_lte', session.get('postid', None), type=int)
-  page = request.args.get('page', 1, type=int) 
-
-  # Error check the query strings
-  if limit < 0 or page < 0:
-    flask.abort(400)
-
-  # Filter by postid_lte and by last session
-  # Filers by postid_lte if it exists
-  filtered_posts = []
-  if postid:
-    for post in posts:
-      if post['postid'] <= postid:
-        filtered_posts.append(post)
-    posts = filtered_posts
-  
-  # Filters by oldest post from last request from session
-  filtered_posts = []
-  if 'last_post' in session:
-    for post in posts:
-      if post['postid'] < session['last_post']:
-        filtered_posts.append(post)
-    posts = filtered_posts
-
-  # Filters limit (or 10) most recent posts
-  filtered_posts = sorted(posts, key=lambda x: x['postid'], reverse=True)[:limit]
-  posts = filtered_posts
-
-  # TO-DO: PAGES?
-  # NOT SURE WHAT PAGES ARE FOR
-
-  # Gets oldest post to save for next query for filtering
-  oldest_post = float('inf')
-  for post in posts:
-    oldest_post = min(post['postid'], oldest_post)
-  
-  session['last_post'] = oldest_post # Remembers last post for next query
 
   # If not postid_lte, get current newest post -> this is for the next request
   newest_post = 0
-  if postid is None:
+  if postid_lte is None:
     for post in posts:
       newest_post = max(newest_post, post['postid'])
-    postid = newest_post
+    postid_lte = newest_post
+  
+  session['postid'] = newest_post
 
   # Compute next string
   if len(posts) < limit:
     next = ""
   else:
-    next = f"/api/v1/posts/?size={limit}&page={page}&postid_lte={postid}"
+    next = f"/api/v1/posts/?size={limit}&page={page + 1}&postid_lte={postid_lte}"
 
   results = [{"postid": post["postid"], "url": f"/api/v1/posts/{post['postid']}/"} for post in posts]
 
@@ -116,6 +95,5 @@ def get_posts():
     response = {"next": next, "results": results, "url": f"{path}?{query_string}"}
   else:
     response = {"next": next, "results": results, "url": f"{path}"}
-  print(request)
 
   return flask.jsonify(response)
