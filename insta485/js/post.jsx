@@ -19,6 +19,9 @@ export default function Post({ url }) {
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
+  const [commentText, setCommentText] = useState('');
+
+  const newLogname = document.getElementById("logname").innerHTML;
 
   const getInitialData = () => {
     // Declare a boolean flag that we can use to cancel the API request.
@@ -39,7 +42,7 @@ export default function Post({ url }) {
           setImgUrl(data.imgUrl);
           setOwner(data.owner);
           setProfilePic(data.ownerImgUrl);
-          setTime(data.created);
+          setTime(dayjs.utc(data.created).fromNow());
           setLikes(data.likes.numLikes);
           setComments(data.comments);
           setIsLiked(data.likes.lognameLikesThis);
@@ -58,6 +61,37 @@ export default function Post({ url }) {
   useEffect(() => {
     getInitialData();
   }, [url]);
+
+  const handleComment = async () => {
+    try {
+      const response = await fetch(`${postInfo.comments_url}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({"text": commentText})
+      })
+      console.log("Success: ", response);
+    }
+    catch (error) {
+      console.error("Error: ", error);
+    }
+
+    getInitialData();
+    setCommentText('');
+  }
+
+  const handleChange = (e) => {
+    setCommentText(e.target.value);
+  }
+
+  const deleteComment = async (url) => {
+    try {
+      const response = await fetch(url, {method: "DELETE"});
+      console.log("SUCCESS: ", response);
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+    getInitialData();
+  }
 
   const handleLike = async () => {
     setIsLiked(true);
@@ -91,7 +125,6 @@ export default function Post({ url }) {
   };
 
   // Render post image and post owner
-  // ADD: Comment owner link, like button, comment button, humanized timestamp
   return (
     <div className="post">
       <p>{owner}</p>
@@ -110,11 +143,6 @@ export default function Post({ url }) {
         >
           unlike
         </button>
-        // <form action="/likes/" method="post" enctype="multipart/form-data">
-        //   <input type="hidden" name="operation" value="unlike" />
-        //   <input type="hidden" name="postid" value="{{ post.postid }}" />
-        //   <input type="submit" name="unlike" value="unlike" />
-        // </form>
       ) : (
         <button 
           data-testid="like-unlike-button"
@@ -122,27 +150,29 @@ export default function Post({ url }) {
         >
           like
         </button>
-        // <form action="/likes/" method="post" enctype="multipart/form-data">
-        //   <input type="hidden" name="operation" value="like" />
-        //   <input type="hidden" name="postid" value="{{ post.postid }}" />
-        //   <input type="submit" name="like" value="like" />
-        // </form>
       )}
       {comments.map((c, index) => {
         return (
           <div>
             <a href={c.ownerShowUrl}>{c.owner}</a>
             <span>{c.text}</span>
+            {c.owner === newLogname && (
+              <button
+                onClick={() => deleteComment(c.url)}
+              >Delete comment</button>
+            )}
           </div>
         )
       })}
-      <button></button>
-      {/* <form action="/comments/" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="operation" value="create" />
-        <input type="hidden" name="postid" value="{{post.postid}}" />
-        <input type="text" name="text" required />
-        <input type="submit" name="comment" value="comment" />
-      </form> */}
+      <form 
+        onSubmit={e => {
+          e.preventDefault();
+          handleComment();
+        }} 
+        onChange={handleChange}
+        enctype="multipart/form-data">
+        <input type="text" name="text" required value={commentText}/>
+      </form>
     </div>
   );
 }
