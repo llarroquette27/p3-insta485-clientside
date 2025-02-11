@@ -70,6 +70,7 @@ export default function Post({ url }) {
   };
 
   const handleComment = async () => {
+    addNewComment();
     try {
       const response = await fetch(`${postInfo.comments_url}`, {
         method: "POST",
@@ -84,6 +85,27 @@ export default function Post({ url }) {
 
     getInitialData();
     setCommentText('');
+  }
+
+  const addNewComment = () => {
+    // Get highest 1
+    let highestId = 0;
+    comments.forEach(c => {
+      if (c.commentid > highestId) {
+        highestId = c.commentid
+      }
+    })
+
+    const newComment = {
+      "commentid": highestId + 1, 
+      "lognameOwnsThis": true,
+      "owner": newLogname,
+      "ownerShowUrl": `/users/${newLogname}/`,
+      "text": commentText,
+      "url": `/api/v1/comments/${highestId + 1}/`
+    }
+    console.log(newComment)
+    setComments([...comments, newComment])
   }
 
   const handleChange = (e) => {
@@ -135,9 +157,9 @@ export default function Post({ url }) {
   return (
     <div className="post">
       <p>{owner}</p>
-      <img src={profilePic} alt="profile_pic"/>
+      <a href={postInfo.ownerShowUrl}><img src={profilePic} alt="profile_pic"/></a>
       <p>{time}</p>
-      <img src={imgUrl} alt="post_image" onDoubleClick={handleDoubleClick}/>
+      <a href={postInfo.postShowUrl}><img src={imgUrl} alt="post_image" onDoubleClick={handleDoubleClick}/></a>
       {likes === 1 ? (
         <div>{likes} like</div>
       ) : (
@@ -160,25 +182,33 @@ export default function Post({ url }) {
       )}
       {comments.map((c, index) => {
         return (
-          <div>
+          <div key={c.commentid}>
             <a href={c.ownerShowUrl}>{c.owner}</a>
-            <span>{c.text}</span>
+            <span data-testid="comment-text">{c.text}</span>
             {c.owner === newLogname && (
               <button
                 onClick={() => deleteComment(c.url)}
+                data-testid="delete-comment-button"
               >Delete comment</button>
             )}
           </div>
         )
       })}
       <form 
+        data-testid="comment-form"
         onSubmit={e => {
           e.preventDefault();
           handleComment();
         }} 
-        onChange={handleChange}
-        enctype="multipart/form-data">
-        <input type="text" name="text" required value={commentText}/>
+      >
+        <input 
+          type="text" 
+          name="text" 
+          required 
+          value={commentText} 
+          onChange={handleChange}
+          data-testid="comment-text"
+          />
       </form>
     </div>
   );

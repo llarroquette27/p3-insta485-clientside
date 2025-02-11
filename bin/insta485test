@@ -20,3 +20,7 @@ pylint insta485
 
 # Run pytest
 pytest -v tests
+
+npx eslint --ext jsx insta485/js
+
+npx prettier --check insta485/js

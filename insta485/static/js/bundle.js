@@ -12,13 +12,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Index)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./post */ "./insta485/js/post.jsx");
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./post */ "./insta485/js/post.jsx");
+/* harmony import */ var react_infinite_scroll_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-infinite-scroll-component */ "./node_modules/react-infinite-scroll-component/dist/index.es.js");
+
+
 
 
 
@@ -28,19 +32,23 @@ __webpack_require__.r(__webpack_exports__);
 // The parameter of this function is an object with a string called url inside it.
 // url is a prop for the Post component.
 function Index() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)([]),
-    _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState, 2),
-    data = _useState2[0],
-    setData = _useState2[1];
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]),
+    _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState, 2),
+    posts = _useState2[0],
+    setPosts = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)('/api/v1/posts/'),
+    _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState3, 2),
+    _next = _useState4[0],
+    setNext = _useState4[1];
   var getData = /*#__PURE__*/function () {
-    var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
+    var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee(url) {
       var response, responseData;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return fetch('/api/v1/posts/', {
+            return fetch(url, {
               credentials: "same-origin"
             });
           case 3:
@@ -50,36 +58,44 @@ function Index() {
           case 6:
             responseData = _context.sent;
             console.log(responseData);
-            setData(responseData.results);
-            _context.next = 14;
+            setPosts([].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(posts), (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(responseData.results)));
+            setNext(responseData.next);
+            _context.next = 15;
             break;
-          case 11:
-            _context.prev = 11;
+          case 12:
+            _context.prev = 12;
             _context.t0 = _context["catch"](0);
             console.error(_context.t0);
-          case 14:
+          case 15:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[0, 11]]);
+      }, _callee, null, [[0, 12]]);
     }));
-    return function getData() {
+    return function getData(_x) {
       return _ref.apply(this, arguments);
     };
   }();
-  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
-    getData();
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useMemo)(function () {
+    getData(_next);
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
-    console.log(data);
-  }, [data]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement((react__WEBPACK_IMPORTED_MODULE_3___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, "Main Page"), data.map(function (p) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
-      key: p.postid
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement(_post__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
+    console.log(posts);
+  }, [posts]);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement((react__WEBPACK_IMPORTED_MODULE_4___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, "Main Page"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(react_infinite_scroll_component__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    dataLength: posts.length,
+    next: function next() {
+      return getData(_next);
+    },
+    hasMore: _next !== '',
+    loader: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("p", null, "Loading...")
+  }, posts.map(function (p, index) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", {
+      key: index
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(_post__WEBPACK_IMPORTED_MODULE_5__["default"], {
       url: p.url
     }));
-  }));
+  })));
 }
 
 /***/ }),
@@ -95,18 +111,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ Post)
 /* harmony export */ });
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
-/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dayjs/plugin/relativeTime */ "./node_modules/dayjs/plugin/relativeTime.js");
-/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dayjs/plugin/utc */ "./node_modules/dayjs/plugin/utc.js");
-/* harmony import */ var dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/toConsumableArray */ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! dayjs */ "./node_modules/dayjs/dayjs.min.js");
+/* harmony import */ var dayjs__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(dayjs__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! dayjs/plugin/relativeTime */ "./node_modules/dayjs/plugin/relativeTime.js");
+/* harmony import */ var dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! dayjs/plugin/utc */ "./node_modules/dayjs/plugin/utc.js");
+/* harmony import */ var dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_7__);
 
 
 
@@ -114,8 +131,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-dayjs__WEBPACK_IMPORTED_MODULE_4___default().extend((dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_5___default()));
-dayjs__WEBPACK_IMPORTED_MODULE_4___default().extend((dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_6___default()));
+
+dayjs__WEBPACK_IMPORTED_MODULE_5___default().extend((dayjs_plugin_relativeTime__WEBPACK_IMPORTED_MODULE_6___default()));
+dayjs__WEBPACK_IMPORTED_MODULE_5___default().extend((dayjs_plugin_utc__WEBPACK_IMPORTED_MODULE_7___default()));
 
 // The parameter of this function is an object with a string called url inside it.
 // url is a prop for the Post component.
@@ -123,40 +141,40 @@ function Post(_ref) {
   var url = _ref.url;
   /* Display image and post owner of a single post */
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(""),
-    _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState, 2),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+    _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState, 2),
     postInfo = _useState2[0],
     setPostInfo = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(""),
-    _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState3, 2),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+    _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState3, 2),
     imgUrl = _useState4[0],
     setImgUrl = _useState4[1];
-  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(""),
-    _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState5, 2),
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+    _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState5, 2),
     owner = _useState6[0],
     setOwner = _useState6[1];
-  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(""),
-    _useState8 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState7, 2),
+  var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+    _useState8 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState7, 2),
     profilePic = _useState8[0],
     setProfilePic = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(""),
-    _useState10 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState9, 2),
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(""),
+    _useState10 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState9, 2),
     time = _useState10[0],
     setTime = _useState10[1];
-  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(0),
-    _useState12 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState11, 2),
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(0),
+    _useState12 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState11, 2),
     likes = _useState12[0],
     setLikes = _useState12[1];
-  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)([]),
-    _useState14 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState13, 2),
+  var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)([]),
+    _useState14 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState13, 2),
     comments = _useState14[0],
     setComments = _useState14[1];
-  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(false),
-    _useState16 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState15, 2),
+  var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
+    _useState16 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState15, 2),
     isLiked = _useState16[0],
     setIsLiked = _useState16[1];
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(''),
-    _useState18 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState17, 2),
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(''),
+    _useState18 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState17, 2),
     commentText = _useState18[0],
     setCommentText = _useState18[1];
   var newLogname = document.getElementById("logname").innerHTML;
@@ -179,7 +197,7 @@ function Post(_ref) {
         setImgUrl(data.imgUrl);
         setOwner(data.owner);
         setProfilePic(data.ownerImgUrl);
-        setTime(dayjs__WEBPACK_IMPORTED_MODULE_4___default().utc(data.created).fromNow());
+        setTime(dayjs__WEBPACK_IMPORTED_MODULE_5___default().utc(data.created).fromNow());
         setLikes(data.likes.numLikes);
         setComments(data.comments);
         setIsLiked(data.likes.lognameLikesThis);
@@ -194,12 +212,12 @@ function Post(_ref) {
       ignoreStaleRequest = true;
     };
   };
-  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
+  (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
     getInitialData();
   }, [url]);
   var handleDoubleClick = /*#__PURE__*/function () {
-    var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
+    var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
             if (isLiked === false) {
@@ -216,13 +234,14 @@ function Post(_ref) {
     };
   }();
   var handleComment = /*#__PURE__*/function () {
-    var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
+    var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee2() {
       var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            addNewComment();
+            _context2.prev = 1;
+            _context2.next = 4;
             return fetch("".concat(postInfo.comments_url), {
               method: "POST",
               headers: {
@@ -232,35 +251,54 @@ function Post(_ref) {
                 "text": commentText
               })
             });
-          case 3:
+          case 4:
             response = _context2.sent;
             console.log("Success: ", response);
-            _context2.next = 10;
+            _context2.next = 11;
             break;
-          case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
+          case 8:
+            _context2.prev = 8;
+            _context2.t0 = _context2["catch"](1);
             console.error("Error: ", _context2.t0);
-          case 10:
+          case 11:
             getInitialData();
             setCommentText('');
-          case 12:
+          case 13:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[0, 7]]);
+      }, _callee2, null, [[1, 8]]);
     }));
     return function handleComment() {
       return _ref3.apply(this, arguments);
     };
   }();
+  var addNewComment = function addNewComment() {
+    // Get highest 1
+    var highestId = 0;
+    comments.forEach(function (c) {
+      if (c.commentid > highestId) {
+        highestId = c.commentid;
+      }
+    });
+    var newComment = {
+      "commentid": highestId + 1,
+      "lognameOwnsThis": true,
+      "owner": newLogname,
+      "ownerShowUrl": "/users/".concat(newLogname, "/"),
+      "text": commentText,
+      "url": "/api/v1/comments/".concat(highestId + 1, "/")
+    };
+    console.log(newComment);
+    setComments([].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(comments), [newComment]));
+  };
   var handleChange = function handleChange(e) {
     setCommentText(e.target.value);
   };
   var deleteComment = /*#__PURE__*/function () {
-    var _ref4 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3(url) {
+    var _ref4 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee3(url) {
       var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee3$(_context3) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
@@ -290,9 +328,9 @@ function Post(_ref) {
     };
   }();
   var handleLike = /*#__PURE__*/function () {
-    var _ref5 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee4() {
+    var _ref5 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee4() {
       var response, data;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee4$(_context4) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee4$(_context4) {
         while (1) switch (_context4.prev = _context4.next) {
           case 0:
             setIsLiked(true);
@@ -331,9 +369,9 @@ function Post(_ref) {
     };
   }();
   var handleDislike = /*#__PURE__*/function () {
-    var _ref6 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee5() {
+    var _ref6 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee5() {
       var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee5$(_context5) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().wrap(function _callee5$(_context5) {
         while (1) switch (_context5.prev = _context5.next) {
           case 0:
             setIsLiked(false);
@@ -369,45 +407,55 @@ function Post(_ref) {
   }();
 
   // Render post image and post owner
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", {
     className: "post"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, owner), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("img", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("p", null, owner), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("a", {
+    href: postInfo.ownerShowUrl
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("img", {
     src: profilePic,
     alt: "profile_pic"
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, time), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("img", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("p", null, time), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("a", {
+    href: postInfo.postShowUrl
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("img", {
     src: imgUrl,
     alt: "post_image",
     onDoubleClick: handleDoubleClick
-  }), likes === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, likes, " like") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, likes, " likes"), isLiked ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("button", {
+  })), likes === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, likes, " like") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, likes, " likes"), isLiked ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("button", {
     "data-testid": "like-unlike-button",
     onClick: function onClick() {
       return handleDislike();
     }
-  }, "unlike") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("button", {
+  }, "unlike") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("button", {
     "data-testid": "like-unlike-button",
     onClick: function onClick() {
       return handleLike();
     }
   }, "like"), comments.map(function (c, index) {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("a", {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", {
+      key: c.commentid
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("a", {
       href: c.ownerShowUrl
-    }, c.owner), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("span", null, c.text), c.owner === newLogname && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("button", {
+    }, c.owner), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("span", {
+      "data-testid": "comment-text"
+    }, c.text), c.owner === newLogname && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("button", {
       onClick: function onClick() {
         return deleteComment(c.url);
-      }
+      },
+      "data-testid": "delete-comment-button"
     }, "Delete comment"));
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("form", {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("form", {
+    "data-testid": "comment-form",
     onSubmit: function onSubmit(e) {
       e.preventDefault();
       handleComment();
-    },
-    onChange: handleChange,
-    enctype: "multipart/form-data"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("input", {
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("input", {
     type: "text",
     name: "text",
     required: true,
-    value: commentText
+    value: commentText,
+    onChange: handleChange,
+    "data-testid": "comment-text"
   })));
 }
 
@@ -30394,6 +30442,470 @@ if (false) {} else {
 
 /***/ }),
 
+/***/ "./node_modules/react-infinite-scroll-component/dist/index.es.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-infinite-scroll-component/dist/index.es.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+/* global Reflect, Promise */
+
+var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return extendStatics(d, b);
+};
+
+function __extends(d, b) {
+    extendStatics(d, b);
+    function __() { this.constructor = d; }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+
+/* eslint-disable no-undefined,no-param-reassign,no-shadow */
+
+/**
+ * Throttle execution of a function. Especially useful for rate limiting
+ * execution of handlers on events like resize and scroll.
+ *
+ * @param  {Number}    delay          A zero-or-greater delay in milliseconds. For event callbacks, values around 100 or 250 (or even higher) are most useful.
+ * @param  {Boolean}   [noTrailing]   Optional, defaults to false. If noTrailing is true, callback will only execute every `delay` milliseconds while the
+ *                                    throttled-function is being called. If noTrailing is false or unspecified, callback will be executed one final time
+ *                                    after the last throttled-function call. (After the throttled-function has not been called for `delay` milliseconds,
+ *                                    the internal counter is reset)
+ * @param  {Function}  callback       A function to be executed after delay milliseconds. The `this` context and all arguments are passed through, as-is,
+ *                                    to `callback` when the throttled-function is executed.
+ * @param  {Boolean}   [debounceMode] If `debounceMode` is true (at begin), schedule `clear` to execute after `delay` ms. If `debounceMode` is false (at end),
+ *                                    schedule `callback` to execute after `delay` ms.
+ *
+ * @return {Function}  A new, throttled, function.
+ */
+function throttle (delay, noTrailing, callback, debounceMode) {
+  /*
+   * After wrapper has stopped being called, this timeout ensures that
+   * `callback` is executed at the proper times in `throttle` and `end`
+   * debounce modes.
+   */
+  var timeoutID;
+  var cancelled = false; // Keep track of the last time `callback` was executed.
+
+  var lastExec = 0; // Function to clear existing timeout
+
+  function clearExistingTimeout() {
+    if (timeoutID) {
+      clearTimeout(timeoutID);
+    }
+  } // Function to cancel next exec
+
+
+  function cancel() {
+    clearExistingTimeout();
+    cancelled = true;
+  } // `noTrailing` defaults to falsy.
+
+
+  if (typeof noTrailing !== 'boolean') {
+    debounceMode = callback;
+    callback = noTrailing;
+    noTrailing = undefined;
+  }
+  /*
+   * The `wrapper` function encapsulates all of the throttling / debouncing
+   * functionality and when executed will limit the rate at which `callback`
+   * is executed.
+   */
+
+
+  function wrapper() {
+    var self = this;
+    var elapsed = Date.now() - lastExec;
+    var args = arguments;
+
+    if (cancelled) {
+      return;
+    } // Execute `callback` and update the `lastExec` timestamp.
+
+
+    function exec() {
+      lastExec = Date.now();
+      callback.apply(self, args);
+    }
+    /*
+     * If `debounceMode` is true (at begin) this is used to clear the flag
+     * to allow future `callback` executions.
+     */
+
+
+    function clear() {
+      timeoutID = undefined;
+    }
+
+    if (debounceMode && !timeoutID) {
+      /*
+       * Since `wrapper` is being called for the first time and
+       * `debounceMode` is true (at begin), execute `callback`.
+       */
+      exec();
+    }
+
+    clearExistingTimeout();
+
+    if (debounceMode === undefined && elapsed > delay) {
+      /*
+       * In throttle mode, if `delay` time has been exceeded, execute
+       * `callback`.
+       */
+      exec();
+    } else if (noTrailing !== true) {
+      /*
+       * In trailing throttle mode, since `delay` time has not been
+       * exceeded, schedule `callback` to execute `delay` ms after most
+       * recent execution.
+       *
+       * If `debounceMode` is true (at begin), schedule `clear` to execute
+       * after `delay` ms.
+       *
+       * If `debounceMode` is false (at end), schedule `callback` to
+       * execute after `delay` ms.
+       */
+      timeoutID = setTimeout(debounceMode ? clear : exec, debounceMode === undefined ? delay - elapsed : delay);
+    }
+  }
+
+  wrapper.cancel = cancel; // Return the wrapper function.
+
+  return wrapper;
+}
+
+var ThresholdUnits = {
+    Pixel: 'Pixel',
+    Percent: 'Percent',
+};
+var defaultThreshold = {
+    unit: ThresholdUnits.Percent,
+    value: 0.8,
+};
+function parseThreshold(scrollThreshold) {
+    if (typeof scrollThreshold === 'number') {
+        return {
+            unit: ThresholdUnits.Percent,
+            value: scrollThreshold * 100,
+        };
+    }
+    if (typeof scrollThreshold === 'string') {
+        if (scrollThreshold.match(/^(\d*(\.\d+)?)px$/)) {
+            return {
+                unit: ThresholdUnits.Pixel,
+                value: parseFloat(scrollThreshold),
+            };
+        }
+        if (scrollThreshold.match(/^(\d*(\.\d+)?)%$/)) {
+            return {
+                unit: ThresholdUnits.Percent,
+                value: parseFloat(scrollThreshold),
+            };
+        }
+        console.warn('scrollThreshold format is invalid. Valid formats: "120px", "50%"...');
+        return defaultThreshold;
+    }
+    console.warn('scrollThreshold should be string or number');
+    return defaultThreshold;
+}
+
+var InfiniteScroll = /** @class */ (function (_super) {
+    __extends(InfiniteScroll, _super);
+    function InfiniteScroll(props) {
+        var _this = _super.call(this, props) || this;
+        _this.lastScrollTop = 0;
+        _this.actionTriggered = false;
+        // variables to keep track of pull down behaviour
+        _this.startY = 0;
+        _this.currentY = 0;
+        _this.dragging = false;
+        // will be populated in componentDidMount
+        // based on the height of the pull down element
+        _this.maxPullDownDistance = 0;
+        _this.getScrollableTarget = function () {
+            if (_this.props.scrollableTarget instanceof HTMLElement)
+                return _this.props.scrollableTarget;
+            if (typeof _this.props.scrollableTarget === 'string') {
+                return document.getElementById(_this.props.scrollableTarget);
+            }
+            if (_this.props.scrollableTarget === null) {
+                console.warn("You are trying to pass scrollableTarget but it is null. This might\n        happen because the element may not have been added to DOM yet.\n        See https://github.com/ankeetmaini/react-infinite-scroll-component/issues/59 for more info.\n      ");
+            }
+            return null;
+        };
+        _this.onStart = function (evt) {
+            if (_this.lastScrollTop)
+                return;
+            _this.dragging = true;
+            if (evt instanceof MouseEvent) {
+                _this.startY = evt.pageY;
+            }
+            else if (evt instanceof TouchEvent) {
+                _this.startY = evt.touches[0].pageY;
+            }
+            _this.currentY = _this.startY;
+            if (_this._infScroll) {
+                _this._infScroll.style.willChange = 'transform';
+                _this._infScroll.style.transition = "transform 0.2s cubic-bezier(0,0,0.31,1)";
+            }
+        };
+        _this.onMove = function (evt) {
+            if (!_this.dragging)
+                return;
+            if (evt instanceof MouseEvent) {
+                _this.currentY = evt.pageY;
+            }
+            else if (evt instanceof TouchEvent) {
+                _this.currentY = evt.touches[0].pageY;
+            }
+            // user is scrolling down to up
+            if (_this.currentY < _this.startY)
+                return;
+            if (_this.currentY - _this.startY >=
+                Number(_this.props.pullDownToRefreshThreshold)) {
+                _this.setState({
+                    pullToRefreshThresholdBreached: true,
+                });
+            }
+            // so you can drag upto 1.5 times of the maxPullDownDistance
+            if (_this.currentY - _this.startY > _this.maxPullDownDistance * 1.5)
+                return;
+            if (_this._infScroll) {
+                _this._infScroll.style.overflow = 'visible';
+                _this._infScroll.style.transform = "translate3d(0px, " + (_this.currentY -
+                    _this.startY) + "px, 0px)";
+            }
+        };
+        _this.onEnd = function () {
+            _this.startY = 0;
+            _this.currentY = 0;
+            _this.dragging = false;
+            if (_this.state.pullToRefreshThresholdBreached) {
+                _this.props.refreshFunction && _this.props.refreshFunction();
+                _this.setState({
+                    pullToRefreshThresholdBreached: false,
+                });
+            }
+            requestAnimationFrame(function () {
+                // this._infScroll
+                if (_this._infScroll) {
+                    _this._infScroll.style.overflow = 'auto';
+                    _this._infScroll.style.transform = 'none';
+                    _this._infScroll.style.willChange = 'unset';
+                }
+            });
+        };
+        _this.onScrollListener = function (event) {
+            if (typeof _this.props.onScroll === 'function') {
+                // Execute this callback in next tick so that it does not affect the
+                // functionality of the library.
+                setTimeout(function () { return _this.props.onScroll && _this.props.onScroll(event); }, 0);
+            }
+            var target = _this.props.height || _this._scrollableNode
+                ? event.target
+                : document.documentElement.scrollTop
+                    ? document.documentElement
+                    : document.body;
+            // return immediately if the action has already been triggered,
+            // prevents multiple triggers.
+            if (_this.actionTriggered)
+                return;
+            var atBottom = _this.props.inverse
+                ? _this.isElementAtTop(target, _this.props.scrollThreshold)
+                : _this.isElementAtBottom(target, _this.props.scrollThreshold);
+            // call the `next` function in the props to trigger the next data fetch
+            if (atBottom && _this.props.hasMore) {
+                _this.actionTriggered = true;
+                _this.setState({ showLoader: true });
+                _this.props.next && _this.props.next();
+            }
+            _this.lastScrollTop = target.scrollTop;
+        };
+        _this.state = {
+            showLoader: false,
+            pullToRefreshThresholdBreached: false,
+            prevDataLength: props.dataLength,
+        };
+        _this.throttledOnScrollListener = throttle(150, _this.onScrollListener).bind(_this);
+        _this.onStart = _this.onStart.bind(_this);
+        _this.onMove = _this.onMove.bind(_this);
+        _this.onEnd = _this.onEnd.bind(_this);
+        return _this;
+    }
+    InfiniteScroll.prototype.componentDidMount = function () {
+        if (typeof this.props.dataLength === 'undefined') {
+            throw new Error("mandatory prop \"dataLength\" is missing. The prop is needed" +
+                " when loading more content. Check README.md for usage");
+        }
+        this._scrollableNode = this.getScrollableTarget();
+        this.el = this.props.height
+            ? this._infScroll
+            : this._scrollableNode || window;
+        if (this.el) {
+            this.el.addEventListener('scroll', this
+                .throttledOnScrollListener);
+        }
+        if (typeof this.props.initialScrollY === 'number' &&
+            this.el &&
+            this.el instanceof HTMLElement &&
+            this.el.scrollHeight > this.props.initialScrollY) {
+            this.el.scrollTo(0, this.props.initialScrollY);
+        }
+        if (this.props.pullDownToRefresh && this.el) {
+            this.el.addEventListener('touchstart', this.onStart);
+            this.el.addEventListener('touchmove', this.onMove);
+            this.el.addEventListener('touchend', this.onEnd);
+            this.el.addEventListener('mousedown', this.onStart);
+            this.el.addEventListener('mousemove', this.onMove);
+            this.el.addEventListener('mouseup', this.onEnd);
+            // get BCR of pullDown element to position it above
+            this.maxPullDownDistance =
+                (this._pullDown &&
+                    this._pullDown.firstChild &&
+                    this._pullDown.firstChild.getBoundingClientRect()
+                        .height) ||
+                    0;
+            this.forceUpdate();
+            if (typeof this.props.refreshFunction !== 'function') {
+                throw new Error("Mandatory prop \"refreshFunction\" missing.\n          Pull Down To Refresh functionality will not work\n          as expected. Check README.md for usage'");
+            }
+        }
+    };
+    InfiniteScroll.prototype.componentWillUnmount = function () {
+        if (this.el) {
+            this.el.removeEventListener('scroll', this
+                .throttledOnScrollListener);
+            if (this.props.pullDownToRefresh) {
+                this.el.removeEventListener('touchstart', this.onStart);
+                this.el.removeEventListener('touchmove', this.onMove);
+                this.el.removeEventListener('touchend', this.onEnd);
+                this.el.removeEventListener('mousedown', this.onStart);
+                this.el.removeEventListener('mousemove', this.onMove);
+                this.el.removeEventListener('mouseup', this.onEnd);
+            }
+        }
+    };
+    InfiniteScroll.prototype.componentDidUpdate = function (prevProps) {
+        // do nothing when dataLength is unchanged
+        if (this.props.dataLength === prevProps.dataLength)
+            return;
+        this.actionTriggered = false;
+        // update state when new data was sent in
+        this.setState({
+            showLoader: false,
+        });
+    };
+    InfiniteScroll.getDerivedStateFromProps = function (nextProps, prevState) {
+        var dataLengthChanged = nextProps.dataLength !== prevState.prevDataLength;
+        // reset when data changes
+        if (dataLengthChanged) {
+            return __assign(__assign({}, prevState), { prevDataLength: nextProps.dataLength });
+        }
+        return null;
+    };
+    InfiniteScroll.prototype.isElementAtTop = function (target, scrollThreshold) {
+        if (scrollThreshold === void 0) { scrollThreshold = 0.8; }
+        var clientHeight = target === document.body || target === document.documentElement
+            ? window.screen.availHeight
+            : target.clientHeight;
+        var threshold = parseThreshold(scrollThreshold);
+        if (threshold.unit === ThresholdUnits.Pixel) {
+            return (target.scrollTop <=
+                threshold.value + clientHeight - target.scrollHeight + 1);
+        }
+        return (target.scrollTop <=
+            threshold.value / 100 + clientHeight - target.scrollHeight + 1);
+    };
+    InfiniteScroll.prototype.isElementAtBottom = function (target, scrollThreshold) {
+        if (scrollThreshold === void 0) { scrollThreshold = 0.8; }
+        var clientHeight = target === document.body || target === document.documentElement
+            ? window.screen.availHeight
+            : target.clientHeight;
+        var threshold = parseThreshold(scrollThreshold);
+        if (threshold.unit === ThresholdUnits.Pixel) {
+            return (target.scrollTop + clientHeight >= target.scrollHeight - threshold.value);
+        }
+        return (target.scrollTop + clientHeight >=
+            (threshold.value / 100) * target.scrollHeight);
+    };
+    InfiniteScroll.prototype.render = function () {
+        var _this = this;
+        var style = __assign({ height: this.props.height || 'auto', overflow: 'auto', WebkitOverflowScrolling: 'touch' }, this.props.style);
+        var hasChildren = this.props.hasChildren ||
+            !!(this.props.children &&
+                this.props.children instanceof Array &&
+                this.props.children.length);
+        // because heighted infiniteScroll visualy breaks
+        // on drag down as overflow becomes visible
+        var outerDivStyle = this.props.pullDownToRefresh && this.props.height
+            ? { overflow: 'auto' }
+            : {};
+        return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: outerDivStyle, className: "infinite-scroll-component__outerdiv" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "infinite-scroll-component " + (this.props.className || ''), ref: function (infScroll) { return (_this._infScroll = infScroll); }, style: style },
+                this.props.pullDownToRefresh && (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: { position: 'relative' }, ref: function (pullDown) { return (_this._pullDown = pullDown); } },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: {
+                            position: 'absolute',
+                            left: 0,
+                            right: 0,
+                            top: -1 * this.maxPullDownDistance,
+                        } }, this.state.pullToRefreshThresholdBreached
+                        ? this.props.releaseToRefreshContent
+                        : this.props.pullDownToRefreshContent))),
+                this.props.children,
+                !this.state.showLoader &&
+                    !hasChildren &&
+                    this.props.hasMore &&
+                    this.props.loader,
+                this.state.showLoader && this.props.hasMore && this.props.loader,
+                !this.props.hasMore && this.props.endMessage)));
+    };
+    return InfiniteScroll;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component));
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (InfiniteScroll);
+//# sourceMappingURL=index.es.js.map
+
+
+/***/ }),
+
 /***/ "./node_modules/react/cjs/react.development.js":
 /*!*****************************************************!*\
   !*** ./node_modules/react/cjs/react.development.js ***!
@@ -34215,6 +34727,25 @@ function _arrayWithHoles(arr) {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _arrayWithoutHoles)
+/* harmony export */ });
+/* harmony import */ var _arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayLikeToArray.js */ "./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js");
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return (0,_arrayLikeToArray_js__WEBPACK_IMPORTED_MODULE_0__["default"])(arr);
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js":
 /*!*********************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js ***!
@@ -34255,6 +34786,23 @@ function _asyncToGenerator(fn) {
       _next(undefined);
     });
   };
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _iterableToArray)
+/* harmony export */ });
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 /***/ }),
@@ -34317,6 +34865,23 @@ function _nonIterableRest() {
 
 /***/ }),
 
+/***/ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _nonIterableSpread)
+/* harmony export */ });
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
+/***/ }),
+
 /***/ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js":
 /*!******************************************************************!*\
   !*** ./node_modules/@babel/runtime/helpers/esm/slicedToArray.js ***!
@@ -34338,6 +34903,31 @@ __webpack_require__.r(__webpack_exports__);
 
 function _slicedToArray(arr, i) {
   return (0,_arrayWithHoles_js__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || (0,_iterableToArrayLimit_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arr, i) || (0,_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__["default"])(arr, i) || (0,_nonIterableRest_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _toConsumableArray)
+/* harmony export */ });
+/* harmony import */ var _arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./arrayWithoutHoles.js */ "./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js");
+/* harmony import */ var _iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./iterableToArray.js */ "./node_modules/@babel/runtime/helpers/esm/iterableToArray.js");
+/* harmony import */ var _unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./unsupportedIterableToArray.js */ "./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js");
+/* harmony import */ var _nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nonIterableSpread.js */ "./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js");
+
+
+
+
+function _toConsumableArray(arr) {
+  return (0,_arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || (0,_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arr) || (0,_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__["default"])(arr) || (0,_nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
 }
 
 /***/ }),
@@ -34457,9 +35047,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
-/* harmony import */ var _post__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./post */ "./insta485/js/post.jsx");
-/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index */ "./insta485/js/index.jsx");
-
+/* harmony import */ var _index__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index */ "./insta485/js/index.jsx");
 
 
 
@@ -34468,7 +35056,7 @@ __webpack_require__.r(__webpack_exports__);
 var root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(document.getElementById("reactEntry"));
 
 // Insert the post component into the DOM.  Only call root.render() once.
-root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_index__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_index__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
 })();
 
 /******/ })()
