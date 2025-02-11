@@ -179,14 +179,32 @@ function Post(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
     getInitialData();
   }, [url]);
-  var handleComment = /*#__PURE__*/function () {
+  var handleDoubleClick = /*#__PURE__*/function () {
     var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
-      var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
           case 0:
-            _context.prev = 0;
-            _context.next = 3;
+            if (isLiked === false) {
+              handleLike();
+            }
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    }));
+    return function handleDoubleClick() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+  var handleComment = /*#__PURE__*/function () {
+    var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.prev = 0;
+            _context2.next = 3;
             return fetch("".concat(postInfo.comments_url), {
               method: "POST",
               headers: {
@@ -197,138 +215,138 @@ function Post(_ref) {
               })
             });
           case 3:
-            response = _context.sent;
+            response = _context2.sent;
             console.log("Success: ", response);
-            _context.next = 10;
+            _context2.next = 10;
             break;
           case 7:
-            _context.prev = 7;
-            _context.t0 = _context["catch"](0);
-            console.error("Error: ", _context.t0);
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
+            console.error("Error: ", _context2.t0);
           case 10:
             getInitialData();
             setCommentText('');
           case 12:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
-      }, _callee, null, [[0, 7]]);
+      }, _callee2, null, [[0, 7]]);
     }));
     return function handleComment() {
-      return _ref2.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
   }();
   var handleChange = function handleChange(e) {
     setCommentText(e.target.value);
   };
   var deleteComment = /*#__PURE__*/function () {
-    var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2(url) {
+    var _ref4 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3(url) {
       var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
-        while (1) switch (_context2.prev = _context2.next) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
           case 0:
-            _context2.prev = 0;
-            _context2.next = 3;
+            _context3.prev = 0;
+            _context3.next = 3;
             return fetch(url, {
               method: "DELETE"
             });
           case 3:
-            response = _context2.sent;
+            response = _context3.sent;
             console.log("SUCCESS: ", response);
-            _context2.next = 10;
+            _context3.next = 10;
             break;
           case 7:
-            _context2.prev = 7;
-            _context2.t0 = _context2["catch"](0);
-            console.error('Error: ', _context2.t0);
+            _context3.prev = 7;
+            _context3.t0 = _context3["catch"](0);
+            console.error('Error: ', _context3.t0);
           case 10:
             getInitialData();
           case 11:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
-      }, _callee2, null, [[0, 7]]);
+      }, _callee3, null, [[0, 7]]);
     }));
     return function deleteComment(_x) {
-      return _ref3.apply(this, arguments);
+      return _ref4.apply(this, arguments);
     };
   }();
   var handleLike = /*#__PURE__*/function () {
-    var _ref4 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3() {
+    var _ref5 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee4() {
       var response, data;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee3$(_context3) {
-        while (1) switch (_context3.prev = _context3.next) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee4$(_context4) {
+        while (1) switch (_context4.prev = _context4.next) {
           case 0:
             setIsLiked(true);
             setLikes(likes + 1);
 
             // Post to rest API
-            _context3.prev = 2;
+            _context4.prev = 2;
             console.log("URL: ", "/api/v1/likes/?postid=".concat(postInfo.postid));
-            _context3.next = 6;
+            _context4.next = 6;
             return fetch("/api/v1/likes/?postid=".concat(postInfo.postid), {
               method: "POST"
             });
           case 6:
-            response = _context3.sent;
-            _context3.next = 9;
+            response = _context4.sent;
+            _context4.next = 9;
             return response.json();
           case 9:
-            data = _context3.sent;
+            data = _context4.sent;
             console.log("SUCCESS: ", data);
-            _context3.next = 16;
+            _context4.next = 16;
             break;
           case 13:
-            _context3.prev = 13;
-            _context3.t0 = _context3["catch"](2);
-            console.error('Error: ', _context3.t0);
+            _context4.prev = 13;
+            _context4.t0 = _context4["catch"](2);
+            console.error('Error: ', _context4.t0);
           case 16:
             getInitialData();
           case 17:
           case "end":
-            return _context3.stop();
+            return _context4.stop();
         }
-      }, _callee3, null, [[2, 13]]);
+      }, _callee4, null, [[2, 13]]);
     }));
     return function handleLike() {
-      return _ref4.apply(this, arguments);
+      return _ref5.apply(this, arguments);
     };
   }();
   var handleDislike = /*#__PURE__*/function () {
-    var _ref5 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee4() {
+    var _ref6 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee5() {
       var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee4$(_context4) {
-        while (1) switch (_context4.prev = _context4.next) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee5$(_context5) {
+        while (1) switch (_context5.prev = _context5.next) {
           case 0:
             setIsLiked(false);
             setLikes(likes - 1);
 
             // Post to rest API
-            _context4.prev = 2;
+            _context5.prev = 2;
             console.log("URL: ", "".concat(postInfo.likes.url));
-            _context4.next = 6;
+            _context5.next = 6;
             return fetch("".concat(postInfo.likes.url), {
               method: "DELETE"
             });
           case 6:
-            response = _context4.sent;
+            response = _context5.sent;
             console.log("SUCCESS: ", response);
-            _context4.next = 13;
+            _context5.next = 13;
             break;
           case 10:
-            _context4.prev = 10;
-            _context4.t0 = _context4["catch"](2);
-            console.error('Error: ', _context4.t0);
+            _context5.prev = 10;
+            _context5.t0 = _context5["catch"](2);
+            console.error('Error: ', _context5.t0);
           case 13:
             getInitialData();
           case 14:
           case "end":
-            return _context4.stop();
+            return _context5.stop();
         }
-      }, _callee4, null, [[2, 10]]);
+      }, _callee5, null, [[2, 10]]);
     }));
     return function handleDislike() {
-      return _ref5.apply(this, arguments);
+      return _ref6.apply(this, arguments);
     };
   }();
 
@@ -340,7 +358,8 @@ function Post(_ref) {
     alt: "profile_pic"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, time), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("img", {
     src: imgUrl,
-    alt: "post_image"
+    alt: "post_image",
+    onDoubleClick: handleDoubleClick
   }), likes === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, likes, " like") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, likes, " likes"), isLiked ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("button", {
     "data-testid": "like-unlike-button",
     onClick: function onClick() {
