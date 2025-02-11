@@ -58,6 +58,13 @@ export default function Post({ url }) {
   useEffect(() => {
     getInitialData();
   }, [url]);
+  
+
+  const handleDoubleClick = async () => {
+    if (isLiked === false) {
+      handleLike();
+    }
+  };
 
   const handleLike = async () => {
     setIsLiked(true);
@@ -95,9 +102,9 @@ export default function Post({ url }) {
   return (
     <div className="post">
       <p>{owner}</p>
-      <img src={profilePic} alt="profile_pic" />
+      <img src={profilePic} alt="profile_pic"/>
       <p>{time}</p>
-      <img src={imgUrl} alt="post_image" />
+      <img src={imgUrl} alt="post_image" onDoubleClick={handleDoubleClick}/>
       {likes === 1 ? (
         <div>{likes} like</div>
       ) : (

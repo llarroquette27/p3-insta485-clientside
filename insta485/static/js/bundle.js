@@ -109,82 +109,100 @@ function Post(_ref) {
   (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
     getInitialData();
   }, [url]);
-  var handleLike = /*#__PURE__*/function () {
+  var handleDoubleClick = /*#__PURE__*/function () {
     var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
-      var response, data;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee$(_context) {
         while (1) switch (_context.prev = _context.next) {
+          case 0:
+            if (isLiked === false) {
+              handleLike();
+            }
+          case 1:
+          case "end":
+            return _context.stop();
+        }
+      }, _callee);
+    }));
+    return function handleDoubleClick() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+  var handleLike = /*#__PURE__*/function () {
+    var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
+      var response, data;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
+        while (1) switch (_context2.prev = _context2.next) {
           case 0:
             setIsLiked(true);
             setLikes(likes + 1);
 
             // Post to rest API
-            _context.prev = 2;
+            _context2.prev = 2;
             console.log("URL: ", "/api/v1/likes/?postid=".concat(postInfo.postid));
-            _context.next = 6;
+            _context2.next = 6;
             return fetch("/api/v1/likes/?postid=".concat(postInfo.postid), {
               method: "POST"
             });
           case 6:
-            response = _context.sent;
-            _context.next = 9;
+            response = _context2.sent;
+            _context2.next = 9;
             return response.json();
           case 9:
-            data = _context.sent;
+            data = _context2.sent;
             console.log("SUCCESS: ", data);
-            _context.next = 16;
+            _context2.next = 16;
             break;
           case 13:
-            _context.prev = 13;
-            _context.t0 = _context["catch"](2);
-            console.error('Error: ', _context.t0);
+            _context2.prev = 13;
+            _context2.t0 = _context2["catch"](2);
+            console.error('Error: ', _context2.t0);
           case 16:
             getInitialData();
           case 17:
           case "end":
-            return _context.stop();
+            return _context2.stop();
         }
-      }, _callee, null, [[2, 13]]);
+      }, _callee2, null, [[2, 13]]);
     }));
     return function handleLike() {
-      return _ref2.apply(this, arguments);
+      return _ref3.apply(this, arguments);
     };
   }();
   var handleDislike = /*#__PURE__*/function () {
-    var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
+    var _ref4 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee3() {
       var response;
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
-        while (1) switch (_context2.prev = _context2.next) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
           case 0:
             setIsLiked(false);
             setLikes(likes - 1);
 
             // Post to rest API
-            _context2.prev = 2;
+            _context3.prev = 2;
             console.log("URL: ", "".concat(postInfo.likes.url));
-            _context2.next = 6;
+            _context3.next = 6;
             return fetch("".concat(postInfo.likes.url), {
               method: "DELETE"
             });
           case 6:
-            response = _context2.sent;
+            response = _context3.sent;
             console.log("SUCCESS: ", response);
-            _context2.next = 13;
+            _context3.next = 13;
             break;
           case 10:
-            _context2.prev = 10;
-            _context2.t0 = _context2["catch"](2);
-            console.error('Error: ', _context2.t0);
+            _context3.prev = 10;
+            _context3.t0 = _context3["catch"](2);
+            console.error('Error: ', _context3.t0);
           case 13:
             getInitialData();
           case 14:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
-      }, _callee2, null, [[2, 10]]);
+      }, _callee3, null, [[2, 10]]);
     }));
     return function handleDislike() {
-      return _ref3.apply(this, arguments);
+      return _ref4.apply(this, arguments);
     };
   }();
 
@@ -197,7 +215,8 @@ function Post(_ref) {
     alt: "profile_pic"
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("p", null, time), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("img", {
     src: imgUrl,
-    alt: "post_image"
+    alt: "post_image",
+    onDoubleClick: handleDoubleClick
   }), likes === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, likes, " like") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("div", null, likes, " likes"), isLiked ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_3___default().createElement("button", {
     "data-testid": "like-unlike-button",
     onClick: function onClick() {
