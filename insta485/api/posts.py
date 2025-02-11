@@ -6,6 +6,12 @@ import hashlib
 
 @insta485.app.route('/api/v1/posts/')
 def get_posts():
+  if 'username' in session:
+    print(session['username'])
+  if 'postid' in session:
+    print(session['postid'])
+
+
   connection = insta485.model.get_db()
 
   # User authentication
@@ -78,7 +84,7 @@ def get_posts():
       newest_post = max(newest_post, post['postid'])
     postid_lte = newest_post
   
-  session['postid'] = newest_post
+  # session['postid'] = newest_post
 
   # Compute next string
   if len(posts) < limit:
