@@ -40,7 +40,7 @@ function Post(_ref) {
   var url = _ref.url;
   /* Display image and post owner of a single post */
 
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(null),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_3__.useState)(""),
     _useState2 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState, 2),
     postInfo = _useState2[0],
     setPostInfo = _useState2[1];
@@ -72,7 +72,7 @@ function Post(_ref) {
     _useState16 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__["default"])(_useState15, 2),
     isLiked = _useState16[0],
     setIsLiked = _useState16[1];
-  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
+  var getInitialData = function getInitialData() {
     // Declare a boolean flag that we can use to cancel the API request.
     var ignoreStaleRequest = false;
 
@@ -105,6 +105,9 @@ function Post(_ref) {
       // should avoid updating state.
       ignoreStaleRequest = true;
     };
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(function () {
+    getInitialData();
   }, [url]);
   var handleLike = /*#__PURE__*/function () {
     var _ref2 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee() {
@@ -117,28 +120,31 @@ function Post(_ref) {
 
             // Post to rest API
             _context.prev = 2;
-            _context.next = 5;
+            console.log("URL: ", "/api/v1/likes/?postid=".concat(postInfo.postid));
+            _context.next = 6;
             return fetch("/api/v1/likes/?postid=".concat(postInfo.postid), {
               method: "POST"
             });
-          case 5:
+          case 6:
             response = _context.sent;
-            _context.next = 8;
+            _context.next = 9;
             return response.json();
-          case 8:
+          case 9:
             data = _context.sent;
             console.log("SUCCESS: ", data);
-            _context.next = 15;
+            _context.next = 16;
             break;
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](2);
             console.error('Error: ', _context.t0);
-          case 15:
+          case 16:
+            getInitialData();
+          case 17:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[2, 12]]);
+      }, _callee, null, [[2, 13]]);
     }));
     return function handleLike() {
       return _ref2.apply(this, arguments);
@@ -146,7 +152,7 @@ function Post(_ref) {
   }();
   var handleDislike = /*#__PURE__*/function () {
     var _ref3 = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_0__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().mark(function _callee2() {
-      var response, data;
+      var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
@@ -155,28 +161,27 @@ function Post(_ref) {
 
             // Post to rest API
             _context2.prev = 2;
-            _context2.next = 5;
-            return fetch("/api/v1/likes/?postid=".concat(postInfo.postid), {
+            console.log("URL: ", "".concat(postInfo.likes.url));
+            _context2.next = 6;
+            return fetch("".concat(postInfo.likes.url), {
               method: "DELETE"
             });
-          case 5:
+          case 6:
             response = _context2.sent;
-            _context2.next = 8;
-            return response.json();
-          case 8:
-            data = _context2.sent;
-            console.log("SUCCESS: ", data);
-            _context2.next = 15;
+            console.log("SUCCESS: ", response);
+            _context2.next = 13;
             break;
-          case 12:
-            _context2.prev = 12;
+          case 10:
+            _context2.prev = 10;
             _context2.t0 = _context2["catch"](2);
             console.error('Error: ', _context2.t0);
-          case 15:
+          case 13:
+            getInitialData();
+          case 14:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[2, 12]]);
+      }, _callee2, null, [[2, 10]]);
     }));
     return function handleDislike() {
       return _ref3.apply(this, arguments);

@@ -11,7 +11,7 @@ dayjs.extend(utc);
 export default function Post({ url }) {
   /* Display image and post owner of a single post */
 
-  const [postInfo, setPostInfo] = useState(null);
+  const [postInfo, setPostInfo] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [owner, setOwner] = useState("");
   const [profilePic, setProfilePic] = useState("");
@@ -20,7 +20,7 @@ export default function Post({ url }) {
   const [comments, setComments] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
 
-  useEffect(() => {
+  const getInitialData = () => {
     // Declare a boolean flag that we can use to cancel the API request.
     let ignoreStaleRequest = false;
 
@@ -53,6 +53,10 @@ export default function Post({ url }) {
       // should avoid updating state.
       ignoreStaleRequest = true;
     };
+  }
+
+  useEffect(() => {
+    getInitialData();
   }, [url]);
 
   const handleLike = async () => {
@@ -61,12 +65,14 @@ export default function Post({ url }) {
 
     // Post to rest API
     try {
+      console.log("URL: ", `/api/v1/likes/?postid=${postInfo.postid}`)
       const response = await fetch(`/api/v1/likes/?postid=${postInfo.postid}`, {method: "POST"});
       const data = await response.json();
       console.log("SUCCESS: ", data);
     } catch (error) {
       console.error('Error: ', error);
     }
+    getInitialData();
   };
 
   const handleDislike = async () => {
@@ -75,12 +81,13 @@ export default function Post({ url }) {
 
     // Post to rest API
     try {
-      const response = await fetch(`/api/v1/likes/?postid=${postInfo.postid}`, {method: "DELETE"});
-      const data = await response.json();
-      console.log("SUCCESS: ", data);
+      console.log("URL: ", `${postInfo.likes.url}`)
+      const response = await fetch(`${postInfo.likes.url}`, {method: "DELETE"});
+      console.log("SUCCESS: ", response);
     } catch (error) {
       console.error('Error: ', error);
     }
+    getInitialData();
   };
 
   // Render post image and post owner
