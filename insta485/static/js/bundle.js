@@ -40,6 +40,10 @@ function Index() {
     _useState4 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState3, 2),
     _next = _useState4[0],
     setNext = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
+    _useState6 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState5, 2),
+    dataLoaded = _useState6[0],
+    setDataLoaded = _useState6[1];
   var getData = /*#__PURE__*/function () {
     var _ref = (0,_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__["default"])( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_3___default().mark(function _callee(url) {
       var response, responseData;
@@ -60,17 +64,18 @@ function Index() {
             console.log(responseData);
             setPosts([].concat((0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(posts), (0,_babel_runtime_helpers_toConsumableArray__WEBPACK_IMPORTED_MODULE_0__["default"])(responseData.results)));
             setNext(responseData.next);
-            _context.next = 15;
+            setDataLoaded(true);
+            _context.next = 16;
             break;
-          case 12:
-            _context.prev = 12;
+          case 13:
+            _context.prev = 13;
             _context.t0 = _context["catch"](0);
             console.error(_context.t0);
-          case 15:
+          case 16:
           case "end":
             return _context.stop();
         }
-      }, _callee, null, [[0, 12]]);
+      }, _callee, null, [[0, 13]]);
     }));
     return function getData(_x) {
       return _ref.apply(this, arguments);
@@ -82,7 +87,7 @@ function Index() {
   (0,react__WEBPACK_IMPORTED_MODULE_4__.useEffect)(function () {
     console.log(posts);
   }, [posts]);
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement((react__WEBPACK_IMPORTED_MODULE_4___default().Fragment), null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, "Main Page"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(react_infinite_scroll_component__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement((react__WEBPACK_IMPORTED_MODULE_4___default().Fragment), null, dataLoaded ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(react_infinite_scroll_component__WEBPACK_IMPORTED_MODULE_6__["default"], {
     dataLength: posts.length,
     next: function next() {
       return getData(_next);
@@ -95,7 +100,7 @@ function Index() {
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(_post__WEBPACK_IMPORTED_MODULE_5__["default"], {
       url: p.url
     }));
-  })));
+  })) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, "Loading..."));
 }
 
 /***/ }),
@@ -177,6 +182,10 @@ function Post(_ref) {
     _useState18 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState17, 2),
     commentText = _useState18[0],
     setCommentText = _useState18[1];
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_4__.useState)(false),
+    _useState20 = (0,_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_2__["default"])(_useState19, 2),
+    dataLoaded = _useState20[0],
+    setDataLoaded = _useState20[1];
   var newLogname = document.getElementById("logname").innerHTML;
   var getInitialData = function getInitialData() {
     // Declare a boolean flag that we can use to cancel the API request.
@@ -202,6 +211,7 @@ function Post(_ref) {
         setComments(data.comments);
         setIsLiked(data.likes.lognameLikesThis);
       }
+      setDataLoaded(true);
     })["catch"](function (error) {
       return console.log(error);
     });
@@ -407,20 +417,20 @@ function Post(_ref) {
   }();
 
   // Render post image and post owner
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement((react__WEBPACK_IMPORTED_MODULE_4___default().Fragment), null, dataLoaded ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", {
     className: "post"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("p", null, owner), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("a", {
     href: postInfo.ownerShowUrl
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("img", {
     src: profilePic,
     alt: "profile_pic"
-  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("p", null, time), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("a", {
+  })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("a", {
     href: postInfo.postShowUrl
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("img", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("p", null, time)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("img", {
     src: imgUrl,
     alt: "post_image",
     onDoubleClick: handleDoubleClick
-  })), likes === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, likes, " like") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, likes, " likes"), isLiked ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("button", {
+  }), likes === 1 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, likes, " like") : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, likes, " likes"), isLiked ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("button", {
     "data-testid": "like-unlike-button",
     onClick: function onClick() {
       return handleDislike();
@@ -456,7 +466,7 @@ function Post(_ref) {
     value: commentText,
     onChange: handleChange,
     "data-testid": "comment-text"
-  })));
+  }))) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement("div", null, "Loading..."));
 }
 
 /***/ }),

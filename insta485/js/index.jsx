@@ -8,6 +8,7 @@ export default function Index() {
   
   const [posts, setPosts] = useState([]);
   const [next, setNext] = useState('/api/v1/posts/');
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   const getData = async (url) => {
     try {
@@ -16,6 +17,7 @@ export default function Index() {
       console.log(responseData)
       setPosts([...posts, ...responseData.results])
       setNext(responseData.next)
+      setDataLoaded(true);
     } catch(error) {
       console.error(error);
     }
@@ -31,16 +33,7 @@ export default function Index() {
 
   return (
     <>
-       <div>Main Page</div>
-       {/* {posts.map(p => {
-        return (
-          <>
-            <div key={p.postid}>
-              <Post url={p.url}/>
-            </div>
-          </>
-        )
-       })} */}
+      {dataLoaded ? (
       <InfiniteScroll
         dataLength={posts.length}
         next={() => getData(next)}
@@ -53,6 +46,7 @@ export default function Index() {
           </div>
         ))}
       </InfiniteScroll>
+      ) : <div>Loading...</div>}
     </>
   );
 }

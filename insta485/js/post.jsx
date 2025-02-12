@@ -21,6 +21,8 @@ export default function Post({ url }) {
   const [isLiked, setIsLiked] = useState(false);
   const [commentText, setCommentText] = useState('');
 
+  const [dataLoaded, setDataLoaded] = useState(false);
+
   const newLogname = document.getElementById("logname").innerHTML;
 
   const getInitialData = () => {
@@ -47,6 +49,7 @@ export default function Post({ url }) {
           setComments(data.comments);
           setIsLiked(data.likes.lognameLikesThis);
         }
+        setDataLoaded(true);
       })
       .catch((error) => console.log(error));
 
@@ -155,61 +158,65 @@ export default function Post({ url }) {
 
   // Render post image and post owner
   return (
-    <div className="post">
-      <p>{owner}</p>
-      <a href={postInfo.ownerShowUrl}><img src={profilePic} alt="profile_pic"/></a>
-      <p>{time}</p>
-      <a href={postInfo.postShowUrl}><img src={imgUrl} alt="post_image" onDoubleClick={handleDoubleClick}/></a>
-      {likes === 1 ? (
-        <div>{likes} like</div>
-      ) : (
-        <div>{likes} likes</div>
-      )}
-      {isLiked ? (
-        <button 
-          data-testid="like-unlike-button"
-          onClick={() => handleDislike()}
+    <>
+      {dataLoaded ? (
+        <div className="post">
+        <p>{owner}</p>
+        <a href={postInfo.ownerShowUrl}><img src={profilePic} alt="profile_pic"/></a>
+        <a href={postInfo.postShowUrl}><p>{time}</p></a>
+        <img src={imgUrl} alt="post_image" onDoubleClick={handleDoubleClick}/>
+        {likes === 1 ? (
+          <div>{likes} like</div>
+        ) : (
+          <div>{likes} likes</div>
+        )}
+        {isLiked ? (
+          <button 
+            data-testid="like-unlike-button"
+            onClick={() => handleDislike()}
+          >
+            unlike
+          </button>
+        ) : (
+          <button 
+            data-testid="like-unlike-button"
+            onClick={() => handleLike()}
+          >
+            like
+          </button>
+        )}
+        {comments.map((c, index) => {
+          return (
+            <div key={c.commentid}>
+              <a href={c.ownerShowUrl}>{c.owner}</a>
+              <span data-testid="comment-text">{c.text}</span>
+              {c.owner === newLogname && (
+                <button
+                  onClick={() => deleteComment(c.url)}
+                  data-testid="delete-comment-button"
+                >Delete comment</button>
+              )}
+            </div>
+          )
+        })}
+        <form 
+          data-testid="comment-form"
+          onSubmit={e => {
+            e.preventDefault();
+            handleComment();
+          }} 
         >
-          unlike
-        </button>
-      ) : (
-        <button 
-          data-testid="like-unlike-button"
-          onClick={() => handleLike()}
-        >
-          like
-        </button>
-      )}
-      {comments.map((c, index) => {
-        return (
-          <div key={c.commentid}>
-            <a href={c.ownerShowUrl}>{c.owner}</a>
-            <span data-testid="comment-text">{c.text}</span>
-            {c.owner === newLogname && (
-              <button
-                onClick={() => deleteComment(c.url)}
-                data-testid="delete-comment-button"
-              >Delete comment</button>
-            )}
-          </div>
-        )
-      })}
-      <form 
-        data-testid="comment-form"
-        onSubmit={e => {
-          e.preventDefault();
-          handleComment();
-        }} 
-      >
-        <input 
-          type="text" 
-          name="text" 
-          required 
-          value={commentText} 
-          onChange={handleChange}
-          data-testid="comment-text"
-          />
-      </form>
-    </div>
+          <input 
+            type="text" 
+            name="text" 
+            required 
+            value={commentText} 
+            onChange={handleChange}
+            data-testid="comment-text"
+            />
+        </form>
+      </div>
+    ) : (<div>Loading...</div>)}
+    </>
   );
 }
