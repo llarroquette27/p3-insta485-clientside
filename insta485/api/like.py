@@ -4,7 +4,7 @@ from flask import session, request
 import insta485
 import hashlib
 
-# SHOULD WORK ONCE GET POSTID ROUTE IMPLEMENTED 
+
 @insta485.app.route('/api/v1/likes/', methods=['POST'])
 def post_api_likes():
     """Sample docstring."""
@@ -18,9 +18,9 @@ def post_api_likes():
         password = flask.request.authorization['password']
 
         real_password = connection.execute(
-        "SELECT password FROM users "
-        "WHERE username=? ",
-        (username, )
+            "SELECT password FROM users "
+            "WHERE username=? ",
+            (username, )
         ).fetchone()
 
         real_password = real_password['password']
@@ -71,13 +71,13 @@ def post_api_likes():
             (username, postid)
         )
     else:
-       # Like already exists, return 200 ok
-       likeid = connection.execute(
-        "SELECT likeid FROM likes "
-        "WHERE owner = ? AND postid = ?",
-        (username, postid)
-       ).fetchone()['likeid']
-       return flask.jsonify({"likeid": likeid, "url": request.path + str(likeid) +"/"})
+        # Like already exists, return 200 ok
+        likeid = connection.execute(
+            "SELECT likeid FROM likes "
+            "WHERE owner = ? AND postid = ?",
+            (username, postid)
+        ).fetchone()['likeid']
+        return flask.jsonify({"likeid": likeid, "url": request.path + str(likeid) +"/"})
 
     connection.commit()
 

@@ -70,5 +70,4 @@ def post_comments():
         "text": comment,
         "url": "/api/v1/comments/{comment_id}/"
     }
-
-    return flask.jsonify(context), 201, 
+    return flask.jsonify(context), 201,

@@ -67,4 +67,4 @@ def delete_comment(commentid):
     connection.commit()
 
     return (request.url + str(commentid) + "/"), 204
-
+    
