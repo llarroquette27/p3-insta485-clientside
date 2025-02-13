@@ -10,5 +10,5 @@ root.render(
   <StrictMode>
     {/* <Post url="/api/v1/posts/1/" /> */}
     <Index />
-  </StrictMode>
+  </StrictMode>,
 );

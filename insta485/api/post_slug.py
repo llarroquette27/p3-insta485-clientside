@@ -7,6 +7,7 @@ import hashlib
 
 @insta485.app.route('/api/v1/posts/<int:postid_url_slug>/')
 def get_post(postid_url_slug):
+    """Sample docstring."""
     connection = insta485.model.get_db()
 
     # User authentication

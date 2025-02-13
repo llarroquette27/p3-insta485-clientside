@@ -1,4 +1,4 @@
-"""Delete a comment"""
+"""Delete a comment."""
 import flask
 from flask import session, request
 import insta485
@@ -67,4 +67,3 @@ def delete_comment(commentid):
     connection.commit()
 
     return (request.url + str(commentid) + "/"), 204
-    

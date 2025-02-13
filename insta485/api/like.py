@@ -8,7 +8,6 @@ import hashlib
 @insta485.app.route('/api/v1/likes/', methods=['POST'])
 def post_api_likes():
     """Sample docstring."""
-
     # User authentication
     connection = insta485.model.get_db()
     if 'username' not in session:
@@ -77,13 +76,14 @@ def post_api_likes():
             "WHERE owner = ? AND postid = ?",
             (username, postid)
         ).fetchone()['likeid']
-        return flask.jsonify({"likeid": likeid, "url": request.path + str(likeid) +"/"})
+        return flask.jsonify(
+            {"likeid": likeid, "url": request.path + str(likeid) + "/"})
 
     connection.commit()
 
     likeid = connection.execute(
         "SELECT last_insert_rowid() FROM posts"
     ).fetchone()
-    response = {"likeid": likeid, "url": request.path + str(likeid) +"/"}
+    response = {"likeid": likeid, "url": request.path + str(likeid) + "/"}
 
     return flask.jsonify(response), 201

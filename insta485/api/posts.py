@@ -7,6 +7,7 @@ import hashlib
 
 @insta485.app.route('/api/v1/posts/')
 def get_posts():
+    """Sample docstring."""
     if 'username' in session:
         print(session['username'])
     if 'postid' in session:
@@ -49,8 +50,9 @@ def get_posts():
 
     # Get query strings used to filter
     limit = request.args.get('size', 10, type=int)  # Default is limit of 10
-    postid_lte = request.args.get('postid_lte', session.get('postid', None), type=int)
-    page = request.args.get('page', 0, type=int) 
+    postid_lte = request.args.get(
+        'postid_lte', session.get('postid', None), type=int)
+    page = request.args.get('page', 0, type=int)
 
     if postid_lte is None:
         # Get the comment id
@@ -91,15 +93,26 @@ def get_posts():
     if len(posts) < limit:
         next = ""
     else:
-        next = f"/api/v1/posts/?size={limit}&page={page + 1}&postid_lte={postid_lte}"
+        next = f"/api/v1/posts/?size={limit}&page={page + 1}"
+        next += f"&postid_lte={postid_lte}"
 
-    results = [{"postid": post["postid"], "url": f"/api/v1/posts/{post['postid']}/"} for post in posts]
+    results = [
+        {
+            "postid": post["postid"],
+            "url": f"/api/v1/posts/{post['postid']}/"
+        }
+        for post in posts
+    ]
 
     path = request.path
     query_string = request.query_string.decode('utf-8')
 
     if query_string:
-        response = {"next": next, "results": results, "url": f"{path}?{query_string}"}
+        response = {
+            "next": next,
+            "results": results,
+            "url": f"{path}?{query_string}"
+        }
     else:
         response = {"next": next, "results": results, "url": f"{path}"}
 

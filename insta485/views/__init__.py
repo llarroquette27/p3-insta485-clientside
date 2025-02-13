@@ -11,3 +11,10 @@ from insta485.views.accounts import show_logout, show_auth
 from insta485.views.likes import post_likes
 from insta485.views.comments import post_comment
 from insta485.views.post_posts import post_post
+from insta485.api.posts import get_posts
+from insta485.api.comments import post_comments
+from insta485.api.delete_comment import delete_comment
+from insta485.api.delete_like import delete_like
+from insta485.api.index import get_index
+from insta485.api.like import post_api_likes
+from insta485.api.post_slug import get_post

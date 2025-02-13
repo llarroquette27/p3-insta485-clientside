@@ -1,4 +1,4 @@
-"""Add one comment to a post"""
+"""Add one comment to a post."""
 import flask
 from flask import session, request
 import insta485
@@ -8,7 +8,6 @@ import hashlib
 @insta485.app.route('/api/v1/comments/', methods=['POST'])
 def post_comments():
     """Sample docstring."""
-
     # User authentication
     connection = insta485.model.get_db()
     if 'username' not in session:

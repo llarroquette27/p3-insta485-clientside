@@ -8,7 +8,6 @@ import hashlib
 @insta485.app.route('/api/v1/likes/<int:likeid>/', methods=['DELETE'])
 def delete_like(likeid):
     """Sample docstring."""
-
     # User authentication
     connection = insta485.model.get_db()
     if 'username' not in session:

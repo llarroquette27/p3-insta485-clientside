@@ -19,7 +19,7 @@ export default function Post({ url }) {
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
-  const [commentText, setCommentText] = useState('');
+  const [commentText, setCommentText] = useState("");
 
   const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -59,17 +59,35 @@ export default function Post({ url }) {
       // should avoid updating state.
       ignoreStaleRequest = true;
     };
-  }
+  };
 
   useEffect(() => {
-    getInitialData();
-  }, [url]);
-  
-
-  const handleDoubleClick = async () => {
-    if (isLiked === false) {
-      handleLike();
+    try {
+      getInitialData();
+    } catch (error) {
+      console.error(error);
     }
+  }, []);
+
+  const addNewComment = () => {
+    // Get highest 1
+    let highestId = 0;
+    comments.forEach((c) => {
+      if (c.commentid > highestId) {
+        highestId = c.commentid;
+      }
+    });
+
+    const newComment = {
+      commentid: highestId + 1,
+      lognameOwnsThis: true,
+      owner: newLogname,
+      ownerShowUrl: `/users/${newLogname}/`,
+      text: commentText,
+      url: `/api/v1/comments/${highestId + 1}/`,
+    };
+    console.log(newComment);
+    setComments([...comments, newComment]);
   };
 
   const handleComment = async () => {
@@ -77,53 +95,31 @@ export default function Post({ url }) {
     try {
       const response = await fetch(`${postInfo.comments_url}`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({"text": commentText})
-      })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: commentText }),
+      });
       console.log("Success: ", response);
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error: ", error);
     }
 
     getInitialData();
-    setCommentText('');
-  }
-
-  const addNewComment = () => {
-    // Get highest 1
-    let highestId = 0;
-    comments.forEach(c => {
-      if (c.commentid > highestId) {
-        highestId = c.commentid
-      }
-    })
-
-    const newComment = {
-      "commentid": highestId + 1, 
-      "lognameOwnsThis": true,
-      "owner": newLogname,
-      "ownerShowUrl": `/users/${newLogname}/`,
-      "text": commentText,
-      "url": `/api/v1/comments/${highestId + 1}/`
-    }
-    console.log(newComment)
-    setComments([...comments, newComment])
-  }
+    setCommentText("");
+  };
 
   const handleChange = (e) => {
     setCommentText(e.target.value);
-  }
+  };
 
-  const deleteComment = async (url) => {
+  const deleteComment = async (commentURL) => {
     try {
-      const response = await fetch(url, {method: "DELETE"});
+      const response = await fetch(commentURL, { method: "DELETE" });
       console.log("SUCCESS: ", response);
     } catch (error) {
-      console.error('Error: ', error);
+      console.error("Error: ", error);
     }
     getInitialData();
-  }
+  };
 
   const handleLike = async () => {
     setIsLiked(true);
@@ -131,12 +127,14 @@ export default function Post({ url }) {
 
     // Post to rest API
     try {
-      console.log("URL: ", `/api/v1/likes/?postid=${postInfo.postid}`)
-      const response = await fetch(`/api/v1/likes/?postid=${postInfo.postid}`, {method: "POST"});
+      console.log("URL: ", `/api/v1/likes/?postid=${postInfo.postid}`);
+      const response = await fetch(`/api/v1/likes/?postid=${postInfo.postid}`, {
+        method: "POST",
+      });
       const data = await response.json();
       console.log("SUCCESS: ", data);
     } catch (error) {
-      console.error('Error: ', error);
+      console.error("Error: ", error);
     }
     getInitialData();
   };
@@ -147,46 +145,59 @@ export default function Post({ url }) {
 
     // Post to rest API
     try {
-      console.log("URL: ", `${postInfo.likes.url}`)
-      const response = await fetch(`${postInfo.likes.url}`, {method: "DELETE"});
+      console.log("URL: ", `${postInfo.likes.url}`);
+      const response = await fetch(`${postInfo.likes.url}`, {
+        method: "DELETE",
+      });
       console.log("SUCCESS: ", response);
     } catch (error) {
-      console.error('Error: ', error);
+      console.error("Error: ", error);
     }
     getInitialData();
   };
 
+  const handleDoubleClick = async () => {
+    if (isLiked === false) {
+      handleLike();
+    }
+  };
+
   // Render post image and post owner
   return (
-    <>
+    <div>
       {dataLoaded ? (
         <div className="post">
-        <p>{owner}</p>
-        <a href={postInfo.ownerShowUrl}><img src={profilePic} alt="profile_pic"/></a>
-        <a href={postInfo.postShowUrl}><p>{time}</p></a>
-        <img src={imgUrl} alt="post_image" onDoubleClick={handleDoubleClick}/>
-        {likes === 1 ? (
-          <div>{likes} like</div>
-        ) : (
-          <div>{likes} likes</div>
-        )}
-        {isLiked ? (
-          <button 
-            data-testid="like-unlike-button"
-            onClick={() => handleDislike()}
-          >
-            unlike
-          </button>
-        ) : (
-          <button 
-            data-testid="like-unlike-button"
-            onClick={() => handleLike()}
-          >
-            like
-          </button>
-        )}
-        {comments.map((c, index) => {
-          return (
+          <p>{owner}</p>
+          <a href={postInfo.ownerShowUrl}>
+            <img src={profilePic} alt="profile_pic" />
+          </a>
+          <a href={postInfo.postShowUrl}>
+            <p>{time}</p>
+          </a>
+          <img
+            src={imgUrl}
+            alt="post_image"
+            onDoubleClick={handleDoubleClick}
+          />
+          {likes === 1 ? <div>{likes} like</div> : <div>{likes} likes</div>}
+          {isLiked ? (
+            <button
+              data-testid="like-unlike-button"
+              onClick={() => handleDislike()}
+              type="button"
+            >
+              unlike
+            </button>
+          ) : (
+            <button
+              data-testid="like-unlike-button"
+              onClick={() => handleLike()}
+              type="button"
+            >
+              like
+            </button>
+          )}
+          {comments.map((c) => (
             <div key={c.commentid}>
               <a href={c.ownerShowUrl}>{c.owner}</a>
               <span data-testid="comment-text">{c.text}</span>
@@ -194,29 +205,33 @@ export default function Post({ url }) {
                 <button
                   onClick={() => deleteComment(c.url)}
                   data-testid="delete-comment-button"
-                >Delete comment</button>
+                  type="button"
+                >
+                  Delete comment
+                </button>
               )}
             </div>
-          )
-        })}
-        <form 
-          data-testid="comment-form"
-          onSubmit={e => {
-            e.preventDefault();
-            handleComment();
-          }} 
-        >
-          <input 
-            type="text" 
-            name="text" 
-            required 
-            value={commentText} 
-            onChange={handleChange}
-            data-testid="comment-text"
+          ))}
+          <form
+            data-testid="comment-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleComment();
+            }}
+          >
+            <input
+              type="text"
+              name="text"
+              required
+              value={commentText}
+              onChange={handleChange}
+              data-testid="comment-text"
             />
-        </form>
-      </div>
-    ) : (<div>Loading...</div>)}
-    </>
+          </form>
+        </div>
+      ) : (
+        <div>Loading...</div>
+      )}
+    </div>
   );
 }
