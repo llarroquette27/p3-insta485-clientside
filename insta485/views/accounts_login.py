@@ -27,14 +27,16 @@ def login_account(username, password):
         flask.abort(403)
 
     real_password = real_password['password']
-    salt = real_password.split('$')[1]
 
-    algorithm = 'sha512'
-    hash_obj = hashlib.new(algorithm)
-    password_salted = salt + password
+    hash_obj = hashlib.new('sha512')
+    password_salted = real_password.split('$')[1] + password
     hash_obj.update(password_salted.encode('utf-8'))
     password_hash = hash_obj.hexdigest()
-    password_db_string = "$".join([algorithm, salt, password_hash])
+    password_db_string = "$".join([
+        'sha512',
+        real_password.split('$')[1],
+        password_hash
+    ])
 
     if real_password != password_db_string:
         flask.abort(403)

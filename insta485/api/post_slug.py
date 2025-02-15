@@ -1,8 +1,8 @@
 """REST API for posts."""
 import flask
-from flask import session, request
+from flask import session
 import insta485
-import hashlib
+from .auth import authentication
 
 
 @insta485.app.route('/api/v1/posts/<int:postid_url_slug>/')
@@ -10,39 +10,7 @@ def get_post(postid_url_slug):
     """Sample docstring."""
     connection = insta485.model.get_db()
 
-    # User authentication
-    if 'username' not in session:
-        print("No username in session")
-        if not request.authorization:
-            flask.abort(403)
-        username = request.authorization['username']
-        password = request.authorization['password']
-
-        real_password = connection.execute(
-            "SELECT password FROM users "
-            "WHERE username=? ",
-            (username, )
-        ).fetchone()
-
-        real_password = real_password['password']
-        if not real_password:
-            flask.abort(403)
-
-        salt = real_password.split('$')[1]
-
-        algorithm = 'sha512'
-        hash_obj = hashlib.new(algorithm)
-        password_salted = salt + password
-        hash_obj.update(password_salted.encode('utf-8'))
-        password_hash = hash_obj.hexdigest()
-        password_db_string = "$".join([algorithm, salt, password_hash])
-
-        if password_db_string != real_password:
-            flask.abort(403)
-
-        session['username'] = username
-
-    username = session['username']
+    authentication()
 
     # Get post data
     highest_post_id = connection.execute(
@@ -59,7 +27,8 @@ def get_post(postid_url_slug):
         "SELECT postid, owner, filename AS post_file, created "
         "FROM posts WHERE postid = ?",
         (postid_url_slug, )
-    ).fetchone()
+    ).fetchall()[0]
+
     if post is None:
         return flask.abort(404)
 
@@ -84,7 +53,7 @@ def get_post(postid_url_slug):
     liked = connection.execute(
         "SELECT * "
         "FROM likes WHERE postid = ? AND owner = ?",
-        (postid_url_slug, username, )
+        (postid_url_slug, session['username'], )
     ).fetchone() is not None
 
     liked_url = None
@@ -93,14 +62,14 @@ def get_post(postid_url_slug):
         likeid = connection.execute(
             "SELECT likeid "
             "FROM likes WHERE postid = ? AND owner = ?",
-            (postid_url_slug, username, )
+            (postid_url_slug, session['username'], )
         ).fetchone()
         liked_url = "/api/v1/likes/" + str(likeid["likeid"]) + "/"
 
     comments = [
         {
             "commentid": comment["commentid"],
-            "lognameOwnsThis": comment["owner"] == username,
+            "lognameOwnsThis": comment["owner"] == session['username'],
             "owner": comment["owner"],
             "ownerShowUrl": "/users/" + comment["owner"] + "/",
             "text": comment["text"],
@@ -108,24 +77,21 @@ def get_post(postid_url_slug):
         }
         for comment in comments]
 
-    likes_json = {
-            "lognameLikesThis": liked,
-            "numLikes": likes,
-            "url": liked_url
-    }
-
-    context = {
+    return flask.jsonify({
         "comments": comments,
         "comments_url": "/api/v1/comments/?postid=" + str
         (postid_url_slug),
         "created": post["created"],
         "imgUrl": "/uploads/" + post["post_file"],
-        "likes": likes_json, "owner": owner["username"],
+        "likes": {
+            "lognameLikesThis": liked,
+            "numLikes": likes,
+            "url": liked_url
+        },
+        "owner": owner["username"],
         "ownerImgUrl": "/uploads/" + owner["owner_file"],
         "ownerShowUrl": "/users/" + owner["username"] + "/",
         "postShowUrl": "/posts/" + str(postid_url_slug) + "/",
         "postid": postid_url_slug,
         "url": "/api/v1/posts/" + str(postid_url_slug) + "/"
-    }
-
-    return flask.jsonify(context)
+    })

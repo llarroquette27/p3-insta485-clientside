@@ -61,8 +61,7 @@ def show_index():
     posts = connection.execute(
         "SELECT DISTINCT posts.postid, posts.owner, posts.created, "
         "users.filename AS owner_file, posts.filename AS post_file "
-        "FROM posts "
-        "INNER JOIN users ON users.username=posts.owner "
+        "FROM posts INNER JOIN users ON users.username=posts.owner "
         "LEFT JOIN following ON posts.owner=following.username2 "
         "AND following.username1 = ? "
         "WHERE following.username1 = ? OR posts.owner = ? "

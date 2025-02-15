@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import utc from "dayjs/plugin/utc";
@@ -25,7 +25,7 @@ export default function Post({ url }) {
 
   const newLogname = document.getElementById("logname").innerHTML;
 
-  const getInitialData = () => {
+  const getInitialData = useCallback(() => {
     // Declare a boolean flag that we can use to cancel the API request.
     let ignoreStaleRequest = false;
 
@@ -59,7 +59,7 @@ export default function Post({ url }) {
       // should avoid updating state.
       ignoreStaleRequest = true;
     };
-  };
+  }, [url]);
 
   useEffect(() => {
     try {
@@ -67,7 +67,7 @@ export default function Post({ url }) {
     } catch (error) {
       console.error(error);
     }
-  }, []);
+  }, [getInitialData]);
 
   const addNewComment = () => {
     // Get highest 1

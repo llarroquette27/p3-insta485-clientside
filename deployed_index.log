@@ -1,0 +1,21 @@
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 18.223.171.143:80...
+* Connected to ec2-18-223-171-143.us-east-2.compute.amazonaws.com (18.223.171.143) port 80
+> GET / HTTP/1.1
+> Host: ec2-18-223-171-143.us-east-2.compute.amazonaws.com
+> User-Agent: curl/8.4.0
+> Accept: */*
+> Cookie: login=eyJ1c2VybmFtZSI6ImF3ZGVvcmlvIn0.Z66UKA.HhBtIJ0oP8vHPMpFNT4OsMvdTVI
+> 
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 14 Feb 2025 00:56:18 GMT
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 415
+< Connection: keep-alive
+< Vary: Cookie
+< 
+{ [415 bytes data]
+100   415  100   415    0     0   1551      0 --:--:-- --:--:-- --:--:--  1554
+* Connection #0 to host ec2-18-223-171-143.us-east-2.compute.amazonaws.com left intact

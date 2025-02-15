@@ -34,17 +34,36 @@ export default function Index() {
     };
   };
 
+  // Fetch data for initial render
   useEffect(() => {
-    try {
-      getData(next);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+    const firstFetch = async () => {
+      try {
+        const response = await fetch("/api/v1/posts/", {
+          credentials: "same-origin",
+        });
+        const responseData = await response.json();
+        console.log(responseData);
 
-  useEffect(() => {
-    console.log(posts);
-  }, [posts]);
+        setPosts((prevPosts) => {
+          // Create a set of existing post IDs for easy lookup
+          const existingPostIds = new Set(prevPosts.map((post) => post.id));
+
+          // Filter out any posts that are already in the state
+          const newPosts = responseData.results.filter(
+            (post) => !existingPostIds.has(post.id),
+          );
+
+          // Append only the new, unique posts
+          return [...prevPosts, ...newPosts];
+        });
+        setNext(responseData.next);
+        setDataLoaded(true);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    firstFetch();
+  }, []);
 
   return (
     <div>
